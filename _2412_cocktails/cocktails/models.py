@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 class Cocktail(models.Model):
-	name = models.CharField(max_length=128, unique=False, null=False)
+	name = models.CharField(max_length=128, unique=True, null=False)
 	
 	def __str__(self):
 		return self.name
@@ -14,20 +14,25 @@ class Cocktail(models.Model):
 
 class Ingredient(models.Model):
 	cocktails = models.ManyToManyField(Cocktail)
-	name = models.CharField(max_length=128, unique=True, null=False)
+	name = models.CharField(max_length=128, unique=False, null=False)
 	type = models.CharField(max_length=128, unique=False, null=False)
+	quantity = models.CharField(max_length=128, unique=False, null=True)
 	
 	def __str__(self):
 		return self.name
 		
 	def __unicode__(self):
-		return self.type
+		return self.name
 		
 class Instruction(models.Model):
-	cocktails = models.ManyToManyField(Cocktail)
-	ingredients = models.ManyToManyField(Ingredient)
-	type = models.CharField(max_length=128, unique=False, null=False)
-	duration = models.IntegerField()
+	cocktail = models.ForeignKey(Cocktail)
+	text = models.TextField(unique=False, null=False)
+
+	def __str__(self):
+		return self.text
+
+	def __unicode__(self):
+		return self.text
 	
 class UserProfile(models.Model):
 	#Links UserProfile to a User model instance
