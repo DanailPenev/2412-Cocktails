@@ -1,9 +1,15 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
+from django.template.defaultfilters import slugify
 
 class Cocktail(models.Model):
 	name = models.CharField(max_length=128, unique=True, null=False)
+	slug = models.SlugField(unique=True)
+
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.name)
+		super(Cocktail, self).save(*args, **kwargs)
 	
 	def __str__(self):
 		return self.name
