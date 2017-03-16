@@ -1,5 +1,6 @@
 from django import forms
 from cocktails.models import *
+from django.forms import formset_factory
 
 class CocktailForm(forms.ModelForm):
 	name = forms.CharField(max_length=128, help_text="Enter cocktail name.")
@@ -16,6 +17,8 @@ class IngredientForm(forms.ModelForm):
 	class Meta:
 		model = Ingredient
 		exclude = ('cocktails',)
+		
+IngredientFormSet = formset_factory(IngredientForm, extra=0)
 
 class InstructionForm(forms.ModelForm):
 	text = forms.CharField(widget=forms.Textarea, help_text="Enter the instruction.")
@@ -24,6 +27,8 @@ class InstructionForm(forms.ModelForm):
 		model = Instruction
 		fields = ('text',)
 
+InstructionFormSet = formset_factory(InstructionForm, extra=0)
+		
 class UserForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput())
 

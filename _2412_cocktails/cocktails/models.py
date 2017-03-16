@@ -6,6 +6,7 @@ from django.template.defaultfilters import slugify
 class Cocktail(models.Model):
 	name = models.CharField(max_length=128, unique=True, null=False)
 	slug = models.SlugField(unique=True)
+	rating = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.name)

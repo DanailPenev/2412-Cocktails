@@ -1,10 +1,72 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from cocktails.models import *
+from cocktails.forms import *
+from django.contrib.auth import authenticate, login
+from django.core.urlresolvers import reverse
 
 # Create your views here.
 def index(request):
-	return HttpResponse("Hello, world. You're at the index, babyy.")
+	context_dict = {}
+	cocktails = Cocktail.objects.order_by('-rating')[:3]
+	context_dict['cocktails'] = cocktails
+	return render(request, 'cocktails/index.html', context_dict)
+	
+def about(request):
+	return render(request, 'cocktails/about.html', {})
+	
+def help(request):
+	return render(request, 'cocktails/help.html', {})
+	
+def register(request):
+	# was the registration successful
+	# initially false
+	registered = False
+	
+	if request.method == 'POST':
+		user_form = UserForm(data=request.POST)
+		profile_form = UserProfileForm(data=request.POST)
+		
+		if user_form.is_valid() and profile_form.is_valid():
+			user = user_form.save()
+			
+			user.set_password(user.password)
+			user.save()
+			
+			profile = profile_form.save(commit=False)
+			profile.user = user
+			
+			profile.save()
+			
+			registered = True
+		else:
+			print(user_form.errors, profile_forms.errors)
+			
+	else:
+		user_form = UserForm()
+		profile_form = UserProfileForm()
+	
+	return render(request, 'cocktails/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+
+def user_login(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		
+		user = authenticate(username=username, password=password)
+		
+		if user:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect(reverse('index'))
+			else:
+				return HttpResponse("Your account is disabled.")
+		else:
+			print("Invalid login details: {0}, {1}".format(username, password))
+			return HttpResponse("Invalid login details")
+			
+	else:
+		return render(request, 'cocktails/login.html', {})
 
 def show_cocktail(request, cocktail_name_slug):
 	context_dict = {}
@@ -25,3 +87,28 @@ def show_cocktail(request, cocktail_name_slug):
 		context_dict['cocktail'] = None
 
 	return render(request, 'cocktails/cocktail.html', context_dict)	
+	
+def upload_cocktail(request):
+	# successful upload?
+	uploaded = False
+	
+	if request.method == 'POST':
+		cocktail_form = CocktailForm(data=request.POST)
+		ingredientSet = IngredientFormSet(data=request.POST)
+		for ingredient in ingredientSet.forms:
+			print ingredient
+		instructionSet = InstructionFormSet(data=request.POST)
+		for instruction in instructionSet:
+			print instruction
+			
+	else:
+		cocktail_form = CocktailForm()
+		ingredientSet = IngredientFormSet()
+		instructionSet = InstructionFormSet()
+		
+	context_dict = {}
+	context_dict['cocktail_form': cocktail_form]
+	context_dict['ingredientSet': ingredientSet]
+	context_dict['instructionSet': instructionSet]
+	return render(request, 'cocktails/upload_cocktail.html', context_dict)
+		
