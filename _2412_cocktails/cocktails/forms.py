@@ -7,7 +7,7 @@ class CocktailForm(forms.ModelForm):
 
 	class Meta:
 		model = Cocktail
-		fields = ('name',)
+		fields = ('name', 'picture')
 
 class IngredientForm(forms.ModelForm):
 	name = forms.CharField(max_length=128, help_text="Enter ingredient.")
@@ -39,4 +39,4 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
-		fields = ('dob',)
+		fields = ('dob', 'picture')

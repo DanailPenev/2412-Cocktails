@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from cocktails.models import *
 from cocktails.forms import *
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 
 # Create your views here.
@@ -18,6 +19,11 @@ def about(request):
 def help(request):
 	return render(request, 'cocktails/help.html', {})
 	
+def hallOfFame(request):
+	cocktails = Cocktail.objects.order_by('-rating')[:5]
+	context_dict['cocktails'] = cocktails
+	return render(request, 'cocktails/hof.html', context_dict)
+
 def register(request):
 	# was the registration successful
 	# initially false
@@ -35,6 +41,9 @@ def register(request):
 			
 			profile = profile_form.save(commit=False)
 			profile.user = user
+
+			if 'picture' in request.FILES:
+				profile.picture = request.FILES['picture']
 			
 			profile.save()
 			
@@ -68,6 +77,11 @@ def user_login(request):
 	else:
 		return render(request, 'cocktails/login.html', {})
 
+@login_required
+def logout(request):
+	logout(request)
+	return HttpResponseRedirect(reverse('index'))
+
 def show_cocktail(request, cocktail_name_slug):
 	context_dict = {}
 
@@ -87,7 +101,8 @@ def show_cocktail(request, cocktail_name_slug):
 		context_dict['cocktail'] = None
 
 	return render(request, 'cocktails/cocktail.html', context_dict)	
-	
+
+@login_required	
 def upload_cocktail(request):
 	# successful upload?
 	uploaded = False
@@ -114,9 +129,3 @@ def upload_cocktail(request):
 		
 def recipes(request):
         return render(request, 'cocktails/recipes.html', {})
-
-def hof(request):
-        return render(request, 'cocktails/hof.html', {})
-	
-
-	
