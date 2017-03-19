@@ -6,6 +6,7 @@ from django.template.defaultfilters import slugify
 class Cocktail(models.Model):
 	name = models.CharField(max_length=128, unique=True, null=False)
 	slug = models.SlugField(unique=True)
+	picture = models.ImageField(upload_to="cocktail_images", blank=True)
 	rating = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
 	def save(self, *args, **kwargs):
@@ -45,7 +46,7 @@ class UserProfile(models.Model):
 	#Links UserProfile to a User model instance
 	user = models.OneToOneField(User)
 	followee = models.ForeignKey('self', null=True)
-	
+	picture = models.ImageField(upload_to="profile_pictures", blank=True)	
 	dob = models.DateField(auto_now=False, auto_now_add=False)
 	
 	def save(self, checkFollowee=True):
