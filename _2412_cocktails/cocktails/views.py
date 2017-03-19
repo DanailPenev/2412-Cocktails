@@ -11,7 +11,7 @@ def index(request):
 	cocktails = Cocktail.objects.order_by('-rating')[:3]
 	context_dict['cocktails'] = cocktails
 	return render(request, 'cocktails/index.html', context_dict)
-	
+
 def about(request):
 	return render(request, 'cocktails/about.html', {})
 	
@@ -112,3 +112,11 @@ def upload_cocktail(request):
 	context_dict['instructionSet': instructionSet]
 	return render(request, 'cocktails/upload_cocktail.html', context_dict)
 		
+def recipes(request):
+        return render(request, 'cocktails/recipes.html', {})
+
+def hof(request):
+        return render(request, 'cocktails/hof.html', {})
+	
+
+	
