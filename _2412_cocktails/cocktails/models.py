@@ -8,6 +8,7 @@ class Cocktail(models.Model):
 	slug = models.SlugField(unique=True)
 	picture = models.ImageField(upload_to="cocktail_images", blank=True)
 	rating = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.name)
@@ -51,6 +52,6 @@ class UserProfile(models.Model):
 	
 	def save(self, checkFollowee=True):
 		super(UserProfile, self).save()
-		if self.partner and checkFollowee:
+		if self.followee and checkFollowee:
 			self.followee.followee = self
-			self.followee.save(checkPartner=False)
+			self.followee.save(checkFollowee=False)

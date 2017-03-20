@@ -20,6 +20,7 @@ def help(request):
 	return render(request, 'cocktails/help.html', {})
 	
 def hallOfFame(request):
+	context_dict = {}
 	cocktails = Cocktail.objects.order_by('-rating')[:5]
 	context_dict['cocktails'] = cocktails
 	return render(request, 'cocktails/hof.html', context_dict)
@@ -49,7 +50,7 @@ def register(request):
 			
 			registered = True
 		else:
-			print(user_form.errors, profile_forms.errors)
+			print(user_form.errors, profile_form.errors)
 			
 	else:
 		user_form = UserForm()
@@ -78,7 +79,7 @@ def user_login(request):
 		return render(request, 'cocktails/login.html', {})
 
 @login_required
-def logout(request):
+def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('index'))
 
@@ -128,4 +129,7 @@ def upload_cocktail(request):
 	return render(request, 'cocktails/upload_cocktail.html', context_dict)
 		
 def recipes(request):
-        return render(request, 'cocktails/recipes.html', {})
+    return render(request, 'cocktails/recipes.html', {})
+
+def profile(request):
+	return render(request, 'cocktails/profile.html', {})

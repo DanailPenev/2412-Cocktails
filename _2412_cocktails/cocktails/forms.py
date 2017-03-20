@@ -2,6 +2,11 @@ from django import forms
 from cocktails.models import *
 from django.forms import formset_factory
 
+years = range(1900, 1999)
+BIRTH_YEAR_CHOICES = []
+for i in years:
+	BIRTH_YEAR_CHOICES.append(str(i))
+
 class CocktailForm(forms.ModelForm):
 	name = forms.CharField(max_length=128, help_text="Enter cocktail name.")
 
@@ -37,6 +42,8 @@ class UserForm(forms.ModelForm):
 		fields = ('username', 'email', 'password')
 
 class UserProfileForm(forms.ModelForm):
+	dob = forms.DateField(widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES))
+
 	class Meta:
 		model = UserProfile
 		fields = ('dob', 'picture')
