@@ -7,60 +7,7 @@ body {
     padding-top: 50px;
 }
 
-.login {
-    font-size: 16px;
-    font-weight: 300;
-    margin: 0;
-    color: #666;
-}
 
-.top {
-    margin: 0;
-    padding: 10px;
-    width: 100%;
-    text-align: center;
-    color: #000;
-    opacity: 0.5;
-}
-
-.login-box {
-    background-color: white;
-    max-width: 340px;
-    margin: 0 auto;
-    position: relative;
-    top: 5px;
-    padding-bottom: 30px;
-    border-radius: 5px;
-    box-shadow: 0 5px 50px rgba(0,0,0,0.4);
-    text-align: center;
-}
-
-.login-box .box-header {
-    background-color: #ff6347;
-    color: #fff;
-    padding: 2px 0;
-    border-radius: 5px 5px 0 0;
-}
-
-form {
-    padding-top: 15px;
-}
-
-.login-box input {
-    margin-bottom: 20px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    font-size: .9em;
-    color: #888;
-}
-
-.login-box input:focus {
-    outline: none;
-    border-color: #665851;
-    transition: 0.5s;
-    color: #665851;
-}
 
 
 .img-portfolio {
@@ -124,29 +71,8 @@ header.carousel .fill {
     background-size: cover;
 }
 
-/* Pricing Page Styles */
-
-.price {
-    display: block;
-    font-size: 50px;
-    line-height: 50px;
-}
-
-.price sup {
-    top: -20px;
-    left: 2px;
-    font-size: 20px;
-}
-
-.period {
-    display: block;
-    font-style: italic;
-}
-
-/* Footer Styles */
-
-footer {
-    margin: 50px 0;
+.carousel-caption {
+    text-align: left;
 }
 
 /* Responsive Styles */
@@ -166,4 +92,60 @@ footer {
     header.carousel .carousel {
         height: 70%;
     }
+}
+
+/* Login and register */
+.login {
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
+    color: #666;
+}
+
+.top {
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    color: #000;
+    opacity: 0.5;
+}
+
+.login-box {
+    background-color: white;
+    max-width: 340px;
+    margin: 0 auto;
+    position: relative;
+    top: 5px;
+    padding-bottom: 30px;
+    border-radius: 5px;
+    box-shadow: 0 5px 50px rgba(0,0,0,0.4);
+    text-align: center;
+}
+
+.login-box .box-header {
+    background-color: #ff6347;
+    color: #fff;
+    padding: 2px 0;
+    border-radius: 5px 5px 0 0;
+}
+
+form {
+    padding-top: 15px;
+}
+
+.login-box input {
+    margin-bottom: 20px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: .9em;
+    color: #888;
+}
+
+.login-box input:focus {
+    outline: none;
+    border-color: #665851;
+    transition: 0.5s;
+    color: #665851;
 }

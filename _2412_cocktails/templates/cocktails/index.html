@@ -14,39 +14,37 @@
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
-        {% if not user.is_authenticated %}
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-        {% endif %}
     </ol>
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
         <div class="item active">
-            <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide One');"></div>
-            <div class="carousel-caption">
-                <h2>Caption 1</h2>
-            </div>
+            <a href="{% url 'about' %}">
+                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide One');"></div>
+                <div class="carousel-caption">
+                    <h1>Recipe</h1>
+                    <h3>By user</h3>
+                </div>
+            </a>
         </div>
         <div class="item">
-            <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
-            <div class="carousel-caption">
-                <h2>Caption 2</h2>
-            </div>
+            <a href="{% url 'about' %}">
+                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
+                <div class="carousel-caption">
+                    <h1>Recipe</h1>
+                    <h3>By user</h3>
+                </div>
+            </a>
         </div>
         <div class="item">
-            <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
-            <div class="carousel-caption">
-                <h2>Caption 3</h2>
-            </div>
+            <a href="{% url 'about' %}">
+                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
+                <div class="carousel-caption">
+                    <h1>Recipe</h1>
+                    <h3>By user</h3>
+                </div>
+            </a>
         </div>
-        {% if not user.is_authenticated %}
-        <div class="item">
-            <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
-            <div class="carousel-caption">
-                <h2>Caption 3</h2>
-            </div>
-        </div>
-        {% endif %}
     </div>
 
     <!-- Controls -->
@@ -62,7 +60,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h2 class="page-header">Portfolio Heading</h2>
+            <h2 class="page-header">More Recipes</h2>
         </div>
         <div class="col-md-4 col-sm-6">
             <a href="portfolio-item.html">
