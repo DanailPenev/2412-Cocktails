@@ -1,0 +1,32 @@
+{% extends 'cocktails/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	Register
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+	<br>
+	<div class="login">
+		<div class="top">
+			<h1>2412 Cocktails</h1>
+		</div>
+		<div class="login-box">
+			<div class="box-header">
+				<h2>Register</h2>
+			</div>
+			<form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
+
+				{% csrf_token %}
+
+				{{ user_form.as_p }}
+				{{ profile_form.as_p }}
+
+				<input type="submit" name="submit" value="Register" />
+				<p class="message">Already Registered? <a href="{% url 'login' %}">Sign In</a></p>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

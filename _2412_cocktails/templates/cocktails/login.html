@@ -1,0 +1,33 @@
+{% extends 'cocktails/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	Login
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+	<br>
+	<div class="login">
+		<div class="top">
+			<h1>2412 Cocktails</h1>
+		</div>
+		<div class="login-box">
+			<div class="box-header">
+				<h2>Log In</h2>
+			</div>
+			<form id="login_form" method="post" action="{% url 'login' %}">
+
+				{% csrf_token %}
+
+				Username: <input type="text" name="username" placeholder="username"/>
+				<br />
+				Password: <input type="password" name="password" placeholder="password"/>
+				<br />
+				<input type="submit" value="submit">
+				<p class="message">Don't have an account? <a href="{% url 'register' %}">Sign up now</a></p>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
