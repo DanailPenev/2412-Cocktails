@@ -18,16 +18,18 @@
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
-        <div class="item active">
+        <!-- {% for recipe in recipes %}
+        <div {% if forloop.first %} class="item active" {% else %} class="item" {% endif %}>
             <a href="{% url 'about' %}">
                 <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide One');"></div>
                 <div class="carousel-caption">
-                    <h1>Recipe</h1>
+                    <h1>{{ recipe.name }}</h1>
                     <h3>By user</h3>
                 </div>
             </a>
-        </div>
-        <div class="item">
+            {% endfor %}
+        </div> -->
+        <!-- <div class="item">
             <a href="{% url 'about' %}">
                 <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
                 <div class="carousel-caption">
@@ -44,7 +46,7 @@
                     <h3>By user</h3>
                 </div>
             </a>
-        </div>
+        </div> -->
     </div>
 
     <!-- Controls -->

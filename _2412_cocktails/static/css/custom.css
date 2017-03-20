@@ -24,6 +24,7 @@ body {
     -webkit-transition: all .35s;
     -moz-transition: all .35s;
     transition: all .35s;
+    border-color: #ff6347;
 }
 
 .navbar-inverse .navbar-brand {
