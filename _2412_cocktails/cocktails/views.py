@@ -59,6 +59,36 @@ def register(request):
 	
 	return render(request, 'cocktails/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
+@login_required	
+def upload_cocktail(request):
+	# successful upload?
+	uploaded = False
+	
+	if request.method == 'POST':
+		cocktail_form = CocktailForm(data=request.POST)
+		print cocktail_form
+		ingredientSet = IngredientFormSet(data=request.POST)
+		print ingredientSet
+		if ingredientSet.is_valid():
+			ingredientSet = ingredientSet.cleaned_data
+			print ingredientSet
+			for form in ingredientSet:
+				form = form.cleaned_data
+				print form
+		instructionSet = InstructionFormSet(data=request.POST)
+		return HttpResponseRedirect(reverse('index'))
+			
+	else:
+		cocktail_form = CocktailForm()
+		ingredientSet = IngredientFormSet()
+		instructionSet = InstructionFormSet()
+		
+	context_dict = {}
+	context_dict['cocktail_form'] = cocktail_form
+	context_dict['ingredientSet'] = ingredientSet
+	context_dict['instructionSet'] = instructionSet
+	return render(request, 'cocktails/upload_cocktail.html', context_dict)	
+	
 def user_login(request):
 	if request.method == 'POST':
 		username = request.POST.get('username')
@@ -103,31 +133,6 @@ def show_cocktail(request, cocktail_name_slug):
 		context_dict['cocktail'] = None
 
 	return render(request, 'cocktails/cocktail.html', context_dict)	
-
-@login_required	
-def upload_cocktail(request):
-	# successful upload?
-	uploaded = False
-	
-	if request.method == 'POST':
-		cocktail_form = CocktailForm(data=request.POST)
-		ingredientSet = IngredientFormSet(data=request.POST)
-		for ingredient in ingredientSet.forms:
-			print ingredient
-		instructionSet = InstructionFormSet(data=request.POST)
-		for instruction in instructionSet:
-			print instruction
-			
-	else:
-		cocktail_form = CocktailForm()
-		ingredientSet = IngredientFormSet()
-		instructionSet = InstructionFormSet()
-		
-	context_dict = {}
-	context_dict['cocktail_form'] = cocktail_form
-	context_dict['ingredientSet'] = ingredientSet
-	context_dict['instructionSet'] = instructionSet
-	return render(request, 'cocktails/upload_cocktail.html', context_dict)
 		
 def cocktails(request):
     return render(request, 'cocktails/cocktails.html', {})

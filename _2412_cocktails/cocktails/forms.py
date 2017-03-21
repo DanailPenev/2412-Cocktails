@@ -16,7 +16,7 @@ class CocktailForm(forms.ModelForm):
 
 class IngredientForm(forms.ModelForm):
 	name = forms.CharField(max_length=128, help_text="Enter ingredient.")
-	quantity = forms.CharField(max_length=128, help_text="Enter quantity and quantifier(e.g. table spoons, ml, etc.")
+	quantity = forms.CharField(max_length=128, help_text="Enter quantity and quantifier(e.g. table spoons, ml, etc).")
 	type = forms.CharField(max_length=128, help_text="Enter type, i.e. alcoholic, non-alcoholic, fruit, etc.")
 
 	class Meta:
