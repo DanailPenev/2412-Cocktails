@@ -34,5 +34,5 @@ $(function() {
 			html = $("#form_template_instructions").clone().html().replace(/__prefix_/g, i);
 			$("#forms_instructions").append(html);
 		};
-		})
 	})
+})
