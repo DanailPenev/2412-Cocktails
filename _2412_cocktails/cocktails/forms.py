@@ -44,7 +44,7 @@ class UserForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
 	dob = forms.DateField(widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES, attrs={'class': 'form'}))
-	picture = forms.ImageField(widget=forms.ClearableFileInput(attrs={'class':'form'}))
+	picture = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class':'form'}))
 
 	class Meta:
 		model = UserProfile

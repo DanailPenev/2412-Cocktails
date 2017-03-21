@@ -48,7 +48,8 @@ def register(request):
 			
 			profile.save()
 			
-			registered = True
+			login(request, user)
+			return HttpResponseRedirect(reverse('index'))
 		else:
 			print(user_form.errors, profile_form.errors)
 			
@@ -123,9 +124,9 @@ def upload_cocktail(request):
 		instructionSet = InstructionFormSet()
 		
 	context_dict = {}
-	context_dict['cocktail_form': cocktail_form]
-	context_dict['ingredientSet': ingredientSet]
-	context_dict['instructionSet': instructionSet]
+	context_dict['cocktail_form'] = cocktail_form
+	context_dict['ingredientSet'] = ingredientSet
+	context_dict['instructionSet'] = instructionSet
 	return render(request, 'cocktails/upload_cocktail.html', context_dict)
 		
 def cocktails(request):
