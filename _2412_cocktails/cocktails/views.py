@@ -128,8 +128,8 @@ def upload_cocktail(request):
 	context_dict['instructionSet': instructionSet]
 	return render(request, 'cocktails/upload_cocktail.html', context_dict)
 		
-def recipes(request):
-    return render(request, 'cocktails/recipes.html', {})
+def cocktails(request):
+    return render(request, 'cocktails/cocktails.html', {})
 
 def profile(request):
 	return render(request, 'cocktails/profile.html', {})

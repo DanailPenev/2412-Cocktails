@@ -12,6 +12,6 @@ urlpatterns = [
 	url(r'^login/$', views.user_login, name='login'),
 	url(r'^logout/$', views.user_logout, name='logout'),
 	url(r'^halloffame/$', views.hallOfFame, name='hof'),
-    url(r'^recipes/$', views.recipes, name='recipes'),
+    url(r'^cocktails/$', views.cocktails, name='cocktails'),
     url(r'^profile/$', views.profile, name='profile'),
 ]
