@@ -4,6 +4,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', '_2412_cocktails.settings')
 import django
 django.setup()
 from cocktails.models import *
+from django.core.files import File
 
 def populate():
 
@@ -26,7 +27,8 @@ def populate():
 				"Half fill the glass with crushed ice and pour in the 2 parts of White Rum.",
 				"Stir the mix together until the sugar dissolves.",
 				"Top up with crushed ice, a splash of the soda water and garnish it with a sprig of mint.",],
-			"rating" : 4.9},
+			"rating" : 4.9,
+			"picture": "mojito.jpg"},
 		"Bloody Mary" : {
 			"ingredients" : [
 				["2 parts", "Vodka", "alcoholic"],
@@ -43,14 +45,15 @@ def populate():
 				"Pour the mix into a glass. Top up with fresh ice if it's not quite full.",
 				"Add your garnishes. Any fresh herbs and a celery stick work well.",
 				"* if you're making Bloody Marys for a group of people, make a jug without spice and let people add their own Tabasco. Some like it hot, others not so much!",],
-			"rating" : 4.2},}
+			"rating" : 4.2,
+			"picture": "bloodymary.jpg"},}
 
 	u = User.objects.get_or_create(username="test")[0]
 	u.save()
 
 
 	for cocktail in menu:
-		c = add_cocktail(cocktail, menu[cocktail]["rating"], u)
+		c = add_cocktail(cocktail, menu[cocktail]["rating"], u, menu[cocktail]["picture"])
 		for ingredient in menu[cocktail]["ingredients"]:
 			add_ingredient(c, ingredient[0], ingredient[1], ingredient[2])
 		for instruction in menu[cocktail]["instructions"]:
@@ -66,10 +69,12 @@ def populate():
 
 
 
-def add_cocktail(name, rating, user):
+def add_cocktail(name, rating, user, picture):
 	c = Cocktail.objects.get_or_create(name=name)[0]
 	c.rating = rating
 	c.author = user
+	path = "cocktail_images/" + picture
+	c.picture = path
 	c.save()
 	return c
 
