@@ -1,0 +1,22 @@
+{% extends 'cocktails/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	Upload Cocktail
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+	<br>
+	<form method="post">
+		{{ cocktail_form.as_p }}
+		{{ ingredientSet.management_form }}
+		<div style="display:none;" id="form_template">
+			{{ ingredientSet.empty_form.as_p }}
+		</div>
+		<div id="forms"></div>
+	</form>
+	<input type="text" name="quantity" value="6" />
+	<input type="submit" id="generate_forms" value="Generate Forms" />
+</div>
+{% endblock %}
