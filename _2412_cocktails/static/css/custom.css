@@ -152,16 +152,22 @@ form {
 }
 
 /* User profile */
-.timeline-cover {
-    background: url(static/images/cocktails.jpg) no-repeat;
+.profile-head {
+    background-image: url('../images/cocktail.jpg');
     background-position: center;
     background-size: cover;
-    min-height: 360px;
+    min-height: 300px;
     border-radius: 0 0 4px 4px;
     position: relative;
 }
 
-.timeline-cover .timeline-nav-bar {
+.profile-info img-circle {
+    border-radius: 50%;
+    width: 10%;
+    height: 10%;
+}
+
+.profile-cover .timeline-nav-bar {
     background: rgba(0,0,0, .7);
     width: 100%;
     position: absolute;
