@@ -36,13 +36,15 @@ InstructionFormSet = formset_factory(InstructionForm, extra=0)
 		
 class UserForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput())
+	email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form'}))
 
 	class Meta:
 		model = User
-		fields = ('username', 'email', 'password')
+		fields = ('username', 'password', 'email')
 
 class UserProfileForm(forms.ModelForm):
-	dob = forms.DateField(widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES))
+	dob = forms.DateField(widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES, attrs={'class': 'form'}))
+	picture = forms.ImageField(widget=forms.ClearableFileInput(attrs={'class':'form'}))
 
 	class Meta:
 		model = UserProfile
