@@ -17,5 +17,5 @@ $(function() {
 			html = $("#form_template").clone().html().replace(/__prefix_/g', i);
 			$("#forms").append(html);
 		};
-		})
 	})
+})

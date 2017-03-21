@@ -161,11 +161,36 @@ form {
     position: relative;
 }
 
-.profile-info img-circle {
-    border-radius: 50%;
-    width: 10%;
-    height: 10%;
+.profile-head .profile-picture {
+    min-height: 300px;
+    margin: auto;
 }
+
+.profile-head .profile-picture img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.profile-head .profile-info {
+    min-height: 300px;
+    margin: auto;
+}
+
+.profile-head .profile-info h3 {
+    margin: auto;
+    color: #fff;
+    bottom: 0;
+}
+
+
+
 
 .profile-cover .timeline-nav-bar {
     background: rgba(0,0,0, .7);
