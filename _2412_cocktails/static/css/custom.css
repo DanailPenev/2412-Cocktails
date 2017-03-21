@@ -150,3 +150,20 @@ form {
     transition: 0.5s;
     color: #665851;
 }
+
+/* User profile */
+.timeline-cover {
+    background: url(static/images/cocktails.jpg) no-repeat;
+    background-position: center;
+    background-size: cover;
+    min-height: 360px;
+    border-radius: 0 0 4px 4px;
+    position: relative;
+}
+
+.timeline-cover .timeline-nav-bar {
+    background: rgba(0,0,0, .7);
+    width: 100%;
+    position: absolute;
+    bottom: 25px;
+}

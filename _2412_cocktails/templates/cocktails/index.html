@@ -20,7 +20,7 @@
     <div class="carousel-inner">
         {% for cocktail in cocktails %}
         <div {% if forloop.first %} class="item active" {% else %} class="item" {% endif %}>
-            <a href="{% url 'about' %}">
+            <a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
                 <div class="fill" style="background-image:url('{{ cocktail.picture }}');"></div>
                 <div class="carousel-caption">
                     <h1>{{ cocktail.name }}</h1>
@@ -44,7 +44,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h2 class="page-header">More Recipes</h2>
+            <h2 class="page-header">More Cocktails</h2>
         </div>
         <div class="col-md-4 col-sm-6">
             <a href="portfolio-item.html">
