@@ -141,7 +141,7 @@ form {
     border: 1px solid #ccc;
     border-radius: 2px;
     font-size: .9em;
-    color: #888;
+    color: #666;
 }
 
 .login-box input:focus {
@@ -166,4 +166,23 @@ form {
     width: 100%;
     position: absolute;
     bottom: 25px;
+}
+
+.timeline-cover .timeline-nav-bar .profile-info {
+    position: absolute;
+    text-align: center;
+    padding: 0 20px;
+    top: -100px;
+    z-index: 999;
+}
+
+.timeline-cover .timeline-nav-bar ul.profile-menu {
+    margin: 0;
+    display: table;
+}
+
+.timeline-cover .timeline-nav-bar .profile-menu li {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 15px 0;
 }
