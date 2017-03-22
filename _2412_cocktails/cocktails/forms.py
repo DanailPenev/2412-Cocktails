@@ -27,7 +27,7 @@ class IngredientForm(forms.ModelForm):
 IngredientFormSet = formset_factory(IngredientForm)
 
 class InstructionForm(forms.ModelForm):
-	text = forms.CharField(widget=forms.Textarea)
+	text = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 1}))
 
 	class Meta:
 		model = Instruction

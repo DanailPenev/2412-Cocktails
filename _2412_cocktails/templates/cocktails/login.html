@@ -16,6 +16,9 @@
 			<div class="box-header">
 				<h2>Log In</h2>
 			</div>
+			{% if redirected %}
+				You need to be logged in to view this page.
+			{% endif %}
 			<form id="login_form" method="post" action="{% url 'login' %}">
 
 				{% csrf_token %}
