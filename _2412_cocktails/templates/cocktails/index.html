@@ -21,7 +21,7 @@
         {% for cocktail in cocktails %}
         <div {% if forloop.first %} class="item active" {% else %} class="item" {% endif %}>
             <a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
-                <div class="fill" style="background-image:url('{{ MEDIA_URL }}/{{ cocktail.picture }}');"></div>
+                <div class="fill" style="background-image:url({% if user.cocktail.picture %} '{{MEDIA_URL}}/{{ cocktail.picture }}'' {% else %} '{{MEDIA_URL}}/download.jpg" {% endif %});''></div>
                 <div class="carousel-caption">
                     <h1>{{ cocktail.name }}</h1>
                     <h3>By {{ cocktail.author }}</h3>
@@ -40,44 +40,4 @@
     </a>
 </header>
 
-<!-- More Cocktails -->
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-md-offset-2 col-md-8 col-sm-12 text-center">
-            <h2 class="heading">Cocktails</h2>
-            <hr>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
-    </div>
-</div>
- -->
 {% endblock %}

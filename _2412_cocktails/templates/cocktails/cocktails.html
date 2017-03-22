@@ -8,6 +8,25 @@
 {% block body_block %}
 
 <div class="container">
+	<div class="row">
+		<div class="col-md-offset-2 col-md-8 col-sm-12 text-center">
+			<h2 class="heading">More Cocktails</h2>
+			<hr>
+		</div>
+	</div>
+	<div class="row">
+		{% for cocktail in cocktails %}
+		<div class="col-md-4 col-sm-6 cocktail-info">
+			<a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
+				<img class="img-responsive img-portfolio img-hover" src={% if user.cocktail.picture %} "{{MEDIA_URL}}/{{ cocktail.picture }}" {% else %} "{{MEDIA_URL}}/download.jpg" {% endif %} alt="">
 
+				<div class="caption cocktail-caption">
+					<h2>{{ cocktail.name }}</h2>
+					<h4>By {{ cocktail.author }}</h4>
+				</div>
+			</a>
+		</div>
+		{% endfor %}
+	</div>	
 </div>
 {% endblock %}

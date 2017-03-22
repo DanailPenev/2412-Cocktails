@@ -4,8 +4,10 @@
 {% block title %}
 	Upload Cocktail
 {% endblock %}
+
 {% block body_block %}
 <div class="container">
+
 	<br>
 	<div class="upload-cocktail">
 		<div class="top">
@@ -46,6 +48,7 @@
 	</div>
 </div>
 
+<!-- Java Script -->
 <script type="text/javascript">
 	$(function() {
 		$('#myForm #ingredient').formset({
@@ -53,8 +56,7 @@
 			formCssClass: 'ingredient-formset'
 		});
 	})
-</script>
-<script type="text/javascript">
+
 	$(function() {
 		$('#myForm #instruction').formset({
 			prefix: '{{ instructionSet.prefix }}',
