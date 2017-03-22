@@ -9,6 +9,7 @@ for i in years:
 
 class CocktailForm(forms.ModelForm):
 	name = forms.CharField(max_length=128)
+	picture = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class':'form'}))
 
 	class Meta:
 		model = Cocktail

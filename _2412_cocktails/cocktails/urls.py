@@ -14,4 +14,5 @@ urlpatterns = [
 	url(r'^halloffame/$', views.hallOfFame, name='hof'),
     url(r'^cocktails/$', views.cocktails, name='cocktails'),
     url(r'^profile/$', views.profile, name='profile'),
+	url(r'^users/(?P<user_name>[\w\-]+)/$', views.get_user, name='get_user'),
 ]

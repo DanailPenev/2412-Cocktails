@@ -18,6 +18,7 @@
 			<div class="row">
 				<div class="col-md-8 cocktail-info">
 					<h2>{{ cocktail.name }}
+<<<<<<< HEAD
 					<fieldset class="rating">
 					    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Great - 5 stars"></label>
 					    <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Good - 4 stars"></label>
@@ -26,7 +27,7 @@
 					    <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Bad - 1 star"></label>
 					</fieldset></h2>
 					<!-- <a href="{% url 'profile' " -->
-					<small>By {{ cocktail.author }} </small>
+					<small>By <a href="{% url 'get_user' user_name=cocktail.author %}">{{ cocktail.author }}</a> </small>
 					<hr>
 				</div>
 				<div class="col-md-8 cocktail-instructions">
