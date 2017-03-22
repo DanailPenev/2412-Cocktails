@@ -153,7 +153,9 @@ def show_cocktail(request, cocktail_name_slug):
 
 @login_required
 def cocktails(request):
-    return render(request, 'cocktails/cocktails.html', {})
+    cocktails = Cocktail.objects.all()
+    context_dict['cocktails'] = cocktails
+    return render(request, 'cocktails/cocktails.html', context_dict)
 
 @login_required	
 def get_user(request, user_name):
@@ -161,9 +163,11 @@ def get_user(request, user_name):
 	user = User.objects.get(username=user_name)
 	cocktails = Cocktail.objects.filter(author=user)
 	owner = user==request.user
+	uploads = len(cocktails)
 	context_dict['user'] = user
 	context_dict['cocktails'] = cocktails
 	context_dict['owner'] = owner
+	context_dict['uploads'] = uploads
 	return render(request, 'cocktails/profile.html', context_dict)
 	
 
