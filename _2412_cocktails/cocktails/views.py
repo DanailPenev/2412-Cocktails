@@ -18,7 +18,8 @@ def about(request):
 	
 def help(request):
 	return render(request, 'cocktails/help.html', {})
-	
+
+@login_required	
 def hallOfFame(request):
 	context_dict = {}
 	cocktails = Cocktail.objects.order_by('-rating')[:5]
@@ -115,17 +116,21 @@ def user_login(request):
 			else:
 				return HttpResponse("Your account is disabled.")
 		else:
-			print("Invalid login details: {0}, {1}".format(username, password))
 			return HttpResponse("Invalid login details")
 			
 	else:
-		return render(request, 'cocktails/login.html', {})
+		par = request.GET.get('next', '')
+		redirected = False
+		if par != '':
+			redirected = True
+		return render(request, 'cocktails/login.html', {'redirected': redirected})
 
 @login_required
 def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('index'))
 
+@login_required
 def show_cocktail(request, cocktail_name_slug):
 	context_dict = {}
 
@@ -144,10 +149,12 @@ def show_cocktail(request, cocktail_name_slug):
 		context_dict['cocktail'] = None
 
 	return render(request, 'cocktails/show_cocktail.html', context_dict)	
-		
+
+@login_required
 def cocktails(request):
     return render(request, 'cocktails/cocktails.html', {})
 
+@login_required	
 def get_user(request, user_name):
 	context_dict = {}
 	user = User.objects.get(username=user_name)
@@ -164,7 +171,20 @@ def profile(request):
 	context_dict = {}
 	user = request.user
 	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
-	cocktails = Cocktail.objects.filter(author=user)
-	context_dict['user'] = user
-	context_dict['cocktails'] = cocktails
-	return render(request, 'cocktails/profile.html', context_dict)
+	
+@login_required
+def edit_cocktail(request, cocktail_name_slug):
+    instance = Cocktail.objects.get(slug=cocktail_name_slug)
+    cocktail_form = CocktailForm(request.POST or None, instance=instance)
+    ingredientSet = IngredientFormSet(request.POST or None, prefix="fs1")
+    instructionSet = InstructionFormSet(request.POST or None, prefix="fs2")
+    context_dict = {}
+    context_dict['cocktail_form'] = cocktail_form
+    context_dict['ingredientSet'] = ingredientSet
+    context_dict['instructionSet'] = instructionSet
+    if cocktail_form.is_valid() and ingredientSet.is_valid() and instructionSet.is_valid():
+          cocktail_form.save()
+	  ingredientSet.save()
+	  instructionSet.save()
+          return HttpResponseRedirect(reverse('profile'))
+    return render(request, 'cocktails/upload_cocktail.html', context_dict) 

@@ -9,6 +9,7 @@ urlpatterns = [
 	url(r'^logout/$', views.user_logout, name='logout'),
 	url(r'^cocktails/upload/$', views.upload_cocktail, name='upload_cocktail'),
     url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/$', views.show_cocktail, name='show_cocktail'),
+	url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/edit/$', views.edit_cocktail, name='edit_cocktail'),
 	url(r'^about/$', views.about, name='about'),
 	url(r'^help/$', views.help, name='help'),
 	url(r'^halloffame/$', views.hallOfFame, name='hof'),
