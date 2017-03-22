@@ -7,9 +7,6 @@ body {
     padding-top: 50px;
 }
 
-
-
-
 .img-portfolio {
     margin-bottom: 30px;
 }
@@ -77,7 +74,6 @@ header.carousel .fill {
 }
 
 /* Responsive Styles */
-
 @media(max-width:991px) {
     .customer-img,
     .img-related {
@@ -230,11 +226,41 @@ form {
     position: relative;
 }
 
-.caption{ 
+.cocktail-caption { 
     position: absolute;
     bottom: 10%;
     left: 10%;
     width: 100%;
     color: #fff;
     opacity: 0.8;
+}
+
+/* Show cocktail */
+.cocktail-image {
+    width: 100%;
+    max-width: 450px;
+    padding: 0;
+    border-style: solid;
+    border-color: #ff6347;
+    border-width: 2px;
+}
+
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+
+.rating > span{
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+}
+
+.rating > span:hover:before, .rating > span:hover ~ span:before {
+    content: "\2605";
+    position: absolute;
+}
+
+.cocktail-info {
+    display: inline-block;
 }

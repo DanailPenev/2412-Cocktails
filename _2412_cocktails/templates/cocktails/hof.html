@@ -18,7 +18,7 @@
 			<a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
 				<img class="img-responsive img-portfolio img-hover" src="{{ MEDIA_URL }}/{{ cocktail.picture }}" alt="">
 
-				<div class="caption">
+				<div class="caption cocktail-caption">
 					<h2>{{ cocktail.name }}</h2>
 					<h4>By {{ cocktail.author }}</h4>
 				</div>
