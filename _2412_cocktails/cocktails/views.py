@@ -154,6 +154,7 @@ def show_cocktail(request, cocktail_name_slug):
 @login_required
 def cocktails(request):
     cocktails = Cocktail.objects.all()
+    context_dict = {}
     context_dict['cocktails'] = cocktails
     return render(request, 'cocktails/cocktails.html', context_dict)
 
