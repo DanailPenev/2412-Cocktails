@@ -135,6 +135,19 @@ form {
     padding-top: 15px;
 }
 
+.login-box label {
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.helptext {
+    font-size: 12px;
+}
+
+#id_picture{
+    margin: auto;
+}
+
 .login-box input {
     margin-bottom: 20px;
     padding: 8px;
@@ -191,4 +204,23 @@ form {
 .profile-head .profile-info ul {
     color: #999;
     font-size: 18px;
+}
+
+.upload {
+    display: inline-block;
+}
+
+.upload-button {
+    float: right;
+    background-color: #ff6347;
+    border-color: #ff6347;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    background-color: #ff6347;
+    border-color: #ff6347;
+}
+
+.pagination>li>a, .pagination>li>span {
+    color: #ff6347;
 }

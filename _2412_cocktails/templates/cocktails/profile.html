@@ -9,7 +9,7 @@
 
 <div class="container">
 	<!-- Profile Banner -->
-	<br>
+	<hr>
 	<div class="row profile-head">
 		<div class="col-md-4 profile-picture">
 			<img src="{% static "images/cocktails.jpg" %}" class="img-responsive">
@@ -26,8 +26,9 @@
 
 	<!-- Uploaded Recipes -->
 	<div class="row">
-        <div class="col-md-offset-2 col-md-8 col-sm-12 text-center">
-            <h2 class="heading">Uploaded Cocktails</h2>
+        <div class="col-md-offset-2 col-md-8 col-sm-12 text-center upload">
+            <h2 class="heading">Uploaded Cocktails
+            <a href="{% url 'upload_cocktail' %}" class="btn btn-info upload-button" role="button">Upload</a></h2>
             <hr>
         </div>
         <div class="col-md-4 col-sm-6">
@@ -61,5 +62,34 @@
             </a>
         </div>
     </div>
+
+    <div class="row text-center">
+       <div class="col-lg-12">
+            <ul class="pagination">
+                <li>
+                    <a href="#">&laquo;</a>
+                </li>
+                <li class="active">
+                    <a href="#">1</a>
+                </li>
+                <li>
+                    <a href="#">2</a>
+                </li>
+                <li>
+                    <a href="#">3</a>
+                </li>
+                <li>
+                    <a href="#">4</a>
+                </li>
+                <li>
+                    <a href="#">5</a>
+                </li>
+                <li>
+                    <a href="#">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
