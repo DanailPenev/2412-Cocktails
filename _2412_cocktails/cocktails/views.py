@@ -176,10 +176,8 @@ def profile(request):
 def edit_cocktail(request, cocktail_name_slug):
     instance = Cocktail.objects.get(slug=cocktail_name_slug)
     cocktail_form = CocktailForm(request.POST or None, instance=instance)
-    qset = instance.ingredient_set.all()
-    ingredientSet = IngredientFormSet(request.POST or None, queryset=qset, prefix="fs1")
-    qset = instance.instruction_set.all()
-    instructionSet = InstructionFormSet(request.POST or None, queryset=qset, prefix="fs2")
+    ingredientSet = IngredientFormSet(request.POST or None, prefix="fs1")
+    instructionSet = InstructionFormSet(request.POST or None, prefix="fs2")
     context_dict = {}
     context_dict['cocktail_form'] = cocktail_form
     context_dict['ingredientSet'] = ingredientSet
@@ -189,4 +187,4 @@ def edit_cocktail(request, cocktail_name_slug):
 	  ingredientSet.save()
 	  instructionSet.save()
           return HttpResponseRedirect(reverse('profile'))
-    return render(request, 'upload_cocktail.html', context_dict) 
+    return render(request, 'cocktails/upload_cocktail.html', context_dict) 
