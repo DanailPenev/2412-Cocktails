@@ -344,3 +344,11 @@ form {
 .cocktail-info {
     display: inline-block;
 }
+
+/*  About */
+.thumbnail > img {
+    max-width: 750px;
+    max-height: 250px;
+    width: auto;
+    height: auto;
+}
