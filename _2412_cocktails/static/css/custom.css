@@ -7,11 +7,10 @@ body {
     padding-top: 50px;
 }
 
-.img {
-    display: block;
-}
 .img-portfolio {
     margin-bottom: 30px;
+    width: 360px;
+    height: 240px;
 }
 
 .img-hover:hover {
@@ -298,6 +297,11 @@ form {
     border-style: solid;
     border-color: #ff6347;
     border-width: 2px;
+}
+
+.cocktail-image > img {
+    width: 450px;
+    height: 300px;
 }
 
 .rating {
