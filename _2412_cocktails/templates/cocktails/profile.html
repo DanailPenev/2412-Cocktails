@@ -24,43 +24,20 @@
 		</div>
 	</div>
 
-	<!-- Uploaded Recipes -->
+	<!-- Uploaded Cocktails -->
 	<div class="row">
-        <div class="col-md-offset-2 col-md-8 col-sm-12 text-center upload">
-            <h2 class="heading">Uploaded Cocktails
-            <a href="{% url 'upload_cocktail' %}" class="btn btn-info upload-button" role="button">Upload</a></h2>
-            <hr>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
+        {% for cocktail in cocktails %}
+        <div class="col-md-4 col-sm-6 cocktail-info">
+            <a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
+                <img class="img-responsive img-portfolio img-hover" src="{{ MEDIA_URL }}/{{ cocktail.picture }}" alt="">
+
+                <div class="caption cocktail-caption">
+                    <h2>{{ cocktail.name }}</h2>
+                    <h4>By {{ cocktail.author }}</h4>
+                </div>
             </a>
         </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="portfolio-item.html">
-                <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            </a>
-        </div>
+        {% endfor %}
     </div>
 
     <div class="row text-center">
