@@ -2,12 +2,34 @@
 {% load staticfiles %}
 
 {% block title %}
-	{{ cocktail.name }}
+	{{ cocktail.name }} by {{ cocktail.author }}
 {% endblock %}
 
 {% block body_block %}
 
 <div class="container">
+	<!-- Cocktail Banner -->
+	<hr>
+	<div class="row cocktail-head">
+		<div class="col-md-2 cocktail-picture">
+			<img src="{% static "images/cocktail.jpg" %}" class="img-responsive">
+		</div>
+		<div class="col-md-10 cocktail-info">
+			<h2>Name</h2>
+			<h3>By </h3>
+			<h4>Rating</h4>
+		</div>
+	</div>
 
+	<div class="row instructions">
+		<h1>You'll Need</h1>
+			<ul>
+				<li></li>
+			</ul>
+		<h1>Instructions</h1>
+			<ul>
+				<li></li>
+			</ul>
+	</div>
 </div>
 {% endblock %}

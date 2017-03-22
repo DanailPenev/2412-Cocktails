@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-	{{ user.name }}
+	{{ user.username }}
 {% endblock %}
 
 {% block body_block %}
@@ -11,15 +11,15 @@
 	<!-- Profile Banner -->
 	<hr>
 	<div class="row profile-head">
-		<div class="col-md-4 profile-picture">
-			<img src="{% static "images/cocktails.jpg" %}" class="img-responsive">
+	    <div class="col-md-4 profile-picture">
+			<img src={% if user.picture %} "{{MEDIA_URL}}profile_pictures/{{ user.picture }}" {% else %} "{{MEDIA_URL}}profile_pictures/default.jpg" {% endif %} class="img-responsive">
 		</div>
 		<div class="col-md-8 profile-info">
-			<h2>Name</h2>
+			<h2>{{ user.username }}</h2>
 			<ul class="list-inline profile-menu">
-				<li>Followers: 200</li>
-				<li>Following: 250</li>
-				<li>Uploads: 87</li>
+				<li>Followers: {{ user.followers }}</li>
+				<li>Following: {{ user.following }}</li>
+				<li>Uploads: {{ user.uploads }}</li>
 			</ul>
 		</div>
 	</div>
