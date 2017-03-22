@@ -109,7 +109,7 @@ header.carousel .fill {
 }
 
 .login-box {
-    background-color: white;
+    background-color: #fff;
     max-width: 340px;
     margin: 0 auto;
     position: relative;
@@ -158,6 +158,58 @@ form {
     border-color: #665851;
     transition: 0.5s;
     color: #665851;
+}
+
+/* Upload Cocktail */
+.upload-cocktail {
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
+    color: #666;
+}
+
+.upload-box {
+    background-color: white;
+    max-width: 450px;
+    margin: 0 auto;
+    position: relative;
+    top: 5px;
+    padding-bottom: 30px;
+    border-radius: 5px;
+    box-shadow: 0 5px 50px rgba(0,0,0,0.4);
+    text-align: center;
+}
+
+.upload-box .box-header {
+    background-color: #ff6347;
+    color: #fff;
+    padding: 2px 0;
+    border-radius: 5px 5px 0 0;
+}
+
+.upload-box label {
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.upload-box input {
+    margin-bottom: 20px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: .9em;
+    color: #666;
+}
+
+.upload-box input:focus {
+    outline: none;
+    border-color: #665851;
+    transition: 0.5s;
+    color: #665851;
+}
+
+.ingredient-formset > tbody > tr > th, .instruction-formset > tbody > tr > th {
+    padding: 20px
 }
 
 /* User profile */
