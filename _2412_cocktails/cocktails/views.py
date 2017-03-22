@@ -176,6 +176,8 @@ def profile(request):
 @login_required
 def edit_cocktail(request, cocktail_name_slug):
     instance = Cocktail.objects.get(slug=cocktail_name_slug)
+    if request.user!=instance.author:
+            return HttpResponseRedirect(reverse('index'))
     ingredients = instance.ingredient_set.all()
     instructions = instance.instruction_set.all()
     initial_ingr = []
