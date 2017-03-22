@@ -119,9 +119,8 @@ def show_cocktail(request, cocktail_name_slug):
 
 	try:
 		cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
-
-		ingredients = Ingredient.objects.filter(cocktail_set__in=cocktail)
-		instructions = Instruction.objects.filter(cocktail=cocktail)
+		ingredients = cocktail.ingredient_set.all()
+		instructions = cocktail.instruction_set.all()
 
 		context_dict['ingredients'] = ingredients
 		context_dict['instructions'] = instructions
@@ -132,7 +131,7 @@ def show_cocktail(request, cocktail_name_slug):
 		context_dict['instructions'] = None
 		context_dict['cocktail'] = None
 
-	return render(request, 'cocktails/cocktail.html', context_dict)	
+	return render(request, 'cocktails/show_cocktail.html', context_dict)	
 		
 def cocktails(request):
     return render(request, 'cocktails/cocktails.html', {})
