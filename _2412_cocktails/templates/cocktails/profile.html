@@ -24,8 +24,13 @@
 		</div>
 	</div>
 
-	<!-- Uploaded Cocktails -->
+	<!-- Uploaded Recipes -->
 	<div class="row">
+        <div class="col-md-offset-2 col-md-8 col-sm-12 text-center upload">
+            <h2 class="heading">Uploaded Cocktails
+            <a href="{% url 'upload_cocktail' %}" class="btn btn-info upload-button" role="button">Upload</a></h2>
+            <hr>
+        </div>
         {% for cocktail in cocktails %}
         <div class="col-md-4 col-sm-6 cocktail-info">
             <a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
