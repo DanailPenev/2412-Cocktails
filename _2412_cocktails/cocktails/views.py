@@ -148,10 +148,22 @@ def show_cocktail(request, cocktail_name_slug):
 def cocktails(request):
     return render(request, 'cocktails/cocktails.html', {})
 
+def get_user(request, user_name):
+	context_dict = {}
+	user = User.objects.get(username=user_name)
+	cocktails = Cocktail.objects.filter(author=user)
+	owner = user==request.user
+	context_dict['user'] = user
+	context_dict['cocktails'] = cocktails
+	context_dict['owner'] = owner
+	return render(request, 'cocktails/profile.html', context_dict)
+	
+
 @login_required
 def profile(request):
 	context_dict = {}
 	user = request.user
+	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
 	cocktails = Cocktail.objects.filter(author=user)
 	context_dict['user'] = user
 	context_dict['cocktails'] = cocktails

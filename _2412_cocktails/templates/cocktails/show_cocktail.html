@@ -21,7 +21,7 @@
 					<div class="rating">
 						<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
 					</div></h2>
-					<small>By {{ cocktail.author }} </small>
+					<small>By <a href="{% url 'get_user' user_name=cocktail.author %}">{{ cocktail.author }}</a> </small>
 					<hr>
 				</div>
 				<div class="col-md-8 cocktail-instructions">
