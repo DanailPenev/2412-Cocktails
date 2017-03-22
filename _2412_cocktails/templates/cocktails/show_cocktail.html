@@ -18,9 +18,14 @@
 			<div class="row">
 				<div class="col-md-8 cocktail-info">
 					<h2>{{ cocktail.name }}
-					<div class="rating">
-						<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-					</div></h2>
+					<fieldset class="rating">
+					    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Great - 5 stars"></label>
+					    <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Good - 4 stars"></label>
+					    <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+					    <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+					    <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Bad - 1 star"></label>
+					</fieldset></h2>
+					<!-- <a href="{% url 'profile' " -->
 					<small>By {{ cocktail.author }} </small>
 					<hr>
 				</div>
@@ -28,7 +33,7 @@
 					<h3>You'll Need</h3>
 					<ul>
 						{% for ingredient in ingredients %}
-							<li>{{ ingredient }}</li>
+							<li>{{ ingredient.quantity }} {{ ingredient }}</li>
 						{% endfor %}
 					</ul>
 					<hr>

@@ -246,20 +246,40 @@ form {
 }
 
 .rating {
-    unicode-bidi: bidi-override;
-    direction: rtl;
+    border: none;
+    float: right;
+    font-size: 20px;
+    display: inline;
 }
 
-.rating > span{
+.rating > input {
+    display: none;
+}
+
+.rating > label:before {
+    margin: 5px;
+    font-size: 1.25em;
     display: inline-block;
-    position: relative;
-    width: 1.1em;
+    content: "\2605"
 }
 
-.rating > span:hover:before, .rating > span:hover ~ span:before {
-    content: "\2605";
-    position: absolute;
+.rating > label{
+    color: #ddd;
+    float: right;
 }
+
+.rating > input:checked ~ label, 
+.rating:not(:checked) > label:hover, 
+.rating:not(:checked) > label:hover ~ label { 
+    color: #222;  
+} 
+
+.rating > input:checked + label:hover, 
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, 
+.rating > input:checked ~ label:hover ~ label { 
+    color: #000;  
+} 
 
 .cocktail-info {
     display: inline-block;

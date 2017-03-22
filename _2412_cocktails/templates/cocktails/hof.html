@@ -13,6 +13,8 @@
 			<h2 class="heading">Top Rated Cocktails</h2>
 			<hr>
 		</div>
+	</div>
+	<div class="row">
 		{% for cocktail in cocktails %}
 		<div class="col-md-4 col-sm-6 cocktail-info">
 			<a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
