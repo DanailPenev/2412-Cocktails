@@ -66,22 +66,32 @@ def upload_cocktail(request):
 	
 	if request.method == 'POST':
 		cocktail_form = CocktailForm(data=request.POST)
-		print cocktail_form
-		ingredientSet = IngredientFormSet(data=request.POST)
-		print ingredientSet
-		if ingredientSet.is_valid():
+		ingredientSet = IngredientFormSet(data=request.POST, prefix="fs1")
+		instructionSet = InstructionFormSet(data=request.POST, prefix="fs2")
+		if cocktail_form.is_valid() and ingredientSet.is_valid() and instructionSet.is_valid():
+			cocktail = cocktail_form.save(commit=False)
+			if 'picture' in request.FILES:
+				cocktail.picture = request.FILES['picture']
+			cocktail.author = request.user
+			cocktail.save()
 			ingredientSet = ingredientSet.cleaned_data
-			print ingredientSet
-			for form in ingredientSet:
-				form = form.cleaned_data
-				print form
-		instructionSet = InstructionFormSet(data=request.POST)
+			for i in ingredientSet:
+				temp = Ingredient.objects.get_or_create(quantity=i['quantity'], name=i['name'])
+				ingredient = temp[0]
+				if (temp[1]):
+					ingredient.type = i['type']				
+				ingredient.cocktails.add(cocktail)
+				ingredient.save()
+			instructionSet = instructionSet.cleaned_data
+			for i in instructionSet:
+				instruction = Instruction.objects.get_or_create(cocktail=cocktail, text=i['text'])[0]
+				instruction.save()
 		return HttpResponseRedirect(reverse('index'))
 			
 	else:
 		cocktail_form = CocktailForm()
-		ingredientSet = IngredientFormSet()
-		instructionSet = InstructionFormSet()
+		ingredientSet = IngredientFormSet(prefix="fs1")
+		instructionSet = InstructionFormSet(prefix="fs2")
 		
 	context_dict = {}
 	context_dict['cocktail_form'] = cocktail_form

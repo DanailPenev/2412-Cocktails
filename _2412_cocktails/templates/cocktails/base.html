@@ -21,7 +21,9 @@
 
     <!-- Custom Fonts from Google -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-
+	
+	<!-- jQuery -->
+	<script src="{% static "js/jquery.js" %}"></script>
 </head>
 
 <body>
@@ -87,15 +89,14 @@
 	{% block body_block %}
 	{% endblock %}
 
-    <!-- jQuery -->
-    <script src="{% static "js/jquery.js" %}"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static "js/bootstrap.min.js" %}"></script>
 
     <!-- Custom Javascript -->
     <script src="{% static "js/custom.js" %}"></script>
-
+	
+	<!-- jquery formset -->
+	<script src="{% static "js/jquery.formset.js" %}"></script>
 </body>
 
 </html>

@@ -4,7 +4,6 @@
 {% block title %}
 	Upload Cocktail
 {% endblock %}
-
 {% block body_block %}
 <div class="container">
 	<br>
@@ -16,22 +15,51 @@
 			<div class="box-header">
 				<h2>Upload Cocktail</h2>
 			</div>
-
-			<form method="post" action="." encrypt="multipart/form-data">
+			<form id="myForm" method="post" action="">
 				{% csrf_token %}
 				{{ cocktail_form.as_p }}
+				<table id="ingredient" border="0" cellpadding="0" cellspacing="0">
+					<tbody>
+					{% for form in ingredientSet %}
+						<tr>
+							{{ form }}
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
 				{{ ingredientSet.management_form }}
-				<div style="display:none;" id="form_template_ingredients">
-					{{ ingredientSet }}
-				</div>
-				<div id="forms_ingredients"></div>
-				<input type="text" name="quantity" value="" />
-				<input type="submit" id="generate_forms_ingredients" value="Generate Forms" />
-				<input type="text" name="quantity" value="" />
-				<input type="submit" id="generate_forms_instructions" value="Generate Forms" />
-				<input type="submit" name="submit" value="Register" />
+				<table id="instruction" border="0" cellpadding="0" cellspacing="0">
+					<tbody>
+					{% for form in instructionSet %}
+						<tr>
+							{{ form }}
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+				{{ instructionSet.management_form }}
+				<p>
+					<input type="submit" value="Upload" />
+				</p>
 			</form>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(function() {
+		$('#myForm #ingredient').formset({
+			prefix: '{{ ingredientSet.prefix }}',
+			formCssClass: 'ingredient-formset'
+		});
+	})
+</script>
+<script type="text/javascript">
+	$(function() {
+		$('#myForm #instruction').formset({
+			prefix: '{{ instructionSet.prefix }}',
+			formCssClass: 'instruction-formset'
+		});
+	})
+</script>
 {% endblock %}

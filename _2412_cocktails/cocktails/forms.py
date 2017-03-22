@@ -23,7 +23,7 @@ class IngredientForm(forms.ModelForm):
 		model = Ingredient
 		exclude = ('cocktails',)
 		
-IngredientFormSet = formset_factory(IngredientForm, extra=0)
+IngredientFormSet = formset_factory(IngredientForm)
 
 class InstructionForm(forms.ModelForm):
 	text = forms.CharField(widget=forms.Textarea)
@@ -32,7 +32,7 @@ class InstructionForm(forms.ModelForm):
 		model = Instruction
 		fields = ('text',)
 
-InstructionFormSet = formset_factory(InstructionForm, extra=0)
+InstructionFormSet = formset_factory(InstructionForm)
 		
 class UserForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput())
