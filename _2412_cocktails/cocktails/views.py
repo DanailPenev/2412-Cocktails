@@ -120,7 +120,7 @@ def show_cocktail(request, cocktail_name_slug):
 	try:
 		cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
 
-		ingredients = Ingredient.objects.filter(cocktail in cocktails)
+		ingredients = Ingredient.objects.filter(cocktail_set__in=cocktail)
 		instructions = Instruction.objects.filter(cocktail=cocktail)
 
 		context_dict['ingredients'] = ingredients

@@ -8,16 +8,16 @@ for i in years:
 	BIRTH_YEAR_CHOICES.append(str(i))
 
 class CocktailForm(forms.ModelForm):
-	name = forms.CharField(max_length=128, help_text="Enter cocktail name.")
+	name = forms.CharField(max_length=128)
 
 	class Meta:
 		model = Cocktail
 		fields = ('name', 'picture')
 
 class IngredientForm(forms.ModelForm):
-	name = forms.CharField(max_length=128, help_text="Enter ingredient.")
-	quantity = forms.CharField(max_length=128, help_text="Enter quantity and quantifier(e.g. table spoons, ml, etc).")
-	type = forms.CharField(max_length=128, help_text="Enter type, i.e. alcoholic, non-alcoholic, fruit, etc.")
+	name = forms.CharField(max_length=128)
+	quantity = forms.CharField(max_length=128)
+	type = forms.CharField(max_length=128)
 
 	class Meta:
 		model = Ingredient
@@ -26,7 +26,7 @@ class IngredientForm(forms.ModelForm):
 IngredientFormSet = formset_factory(IngredientForm, extra=0)
 
 class InstructionForm(forms.ModelForm):
-	text = forms.CharField(widget=forms.Textarea, help_text="Enter the instruction.")
+	text = forms.CharField(widget=forms.Textarea)
 
 	class Meta:
 		model = Instruction
