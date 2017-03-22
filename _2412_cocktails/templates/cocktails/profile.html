@@ -12,7 +12,7 @@
 	<hr>
 	<div class="row profile-head">
 	    <div class="col-md-4 profile-picture">
-			<img src={% if user.userprofile.picture %} "{{MEDIA_URL}}profile_pictures/{{ user.userprofile.picture }}" {% else %} "{{MEDIA_URL}}/default.jpg" {% endif %} class="img-responsive">
+			<img src={% if user.userprofile.picture %} "{{MEDIA_URL}/{{ user.userprofile.picture }}" {% else %} "{{MEDIA_URL}}profile_pictures/default.jpg" {% endif %} class="img-responsive">
 		</div>
 		<div class="col-md-8 profile-info">
 			<h2>{{ user.username }}</h2>
