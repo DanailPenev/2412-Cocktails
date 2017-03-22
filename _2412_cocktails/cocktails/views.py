@@ -69,6 +69,8 @@ def upload_cocktail(request):
 		ingredientSet = IngredientFormSet(data=request.POST, prefix="fs1")
 		instructionSet = InstructionFormSet(data=request.POST, prefix="fs2")
 		if cocktail_form.is_valid() and ingredientSet.is_valid() and instructionSet.is_valid():
+			print cocktail_form
+			print request.FILES
 			cocktail = cocktail_form.save(commit=False)
 			if 'picture' in request.FILES:
 				cocktail.picture = request.FILES['picture']
