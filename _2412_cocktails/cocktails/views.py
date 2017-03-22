@@ -123,6 +123,26 @@ def user_login(request):
 			redirected = True
 		return render(request, 'cocktails/login.html', {'redirected': redirected})
 
+def change_password(request):
+	context_dict = {}
+	if request.method == 'POST':
+		successful = False
+
+		password = request.POST.get('old_password')
+		new_pass_1 = request.POST.get('new_password')
+		new_pass_2 = request.POST.get('new_password_again')
+		u = request.user
+		auth = authenticate(username=u.username, password=password)
+		if new_pass_1==new_pass_2 and auth:
+			u.set_password(new_pass_2)
+			u.save()
+			successful = True
+			context_dict['successful'] = successful
+			return render(request, 'cocktails/change_password.html', context_dict)
+	return render(request, 'cocktails/change_password.html', context_dict)
+
+
+
 @login_required
 def user_logout(request):
 	logout(request)

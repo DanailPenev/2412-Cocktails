@@ -7,6 +7,7 @@ urlpatterns = [
 	url(r'^register/$', views.register, name='register'),
 	url(r'^login/$', views.user_login, name='login'),
 	url(r'^logout/$', views.user_logout, name='logout'),
+	url(r'^change_password/$', views.change_password, name='change_password'),
 	url(r'^cocktails/upload/$', views.upload_cocktail, name='upload_cocktail'),
     url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/$', views.show_cocktail, name='show_cocktail'),
 	url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/edit/$', views.edit_cocktail, name='edit_cocktail'),
