@@ -21,7 +21,7 @@
         {% for cocktail in cocktails %}
         <div {% if forloop.first %} class="item active" {% else %} class="item" {% endif %}>
             <a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
-                <div class="fill" style="background-image:url({% if user.cocktail.picture %} '{{MEDIA_URL}}/{{ cocktail.picture }}'' {% else %} '{{MEDIA_URL}}/download.jpg" {% endif %});''></div>
+                <div class="fill" style="background-image:url({% if cocktail.picture %} '{{ MEDIA_URL }}/{{ cocktail.picture }}' {% else %} '{{MEDIA_URL}}/cocktail_images/download.jpg' {% endif %});"></div>
                 <div class="carousel-caption">
                     <h1>{{ cocktail.name }}</h1>
                     <h3>By {{ cocktail.author }}</h3>
