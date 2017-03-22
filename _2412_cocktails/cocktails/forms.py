@@ -16,9 +16,9 @@ class CocktailForm(forms.ModelForm):
 		fields = ('name', 'picture')
 
 class IngredientForm(forms.ModelForm):
-	name = forms.CharField(max_length=128)
-	quantity = forms.CharField(max_length=128)
-	type = forms.CharField(max_length=128)
+	name = forms.CharField(required=False, max_length=128)
+	quantity = forms.CharField(required=False, max_length=128)
+	type = forms.CharField(required=False, max_length=128)
 
 	class Meta:
 		model = Ingredient
@@ -27,7 +27,7 @@ class IngredientForm(forms.ModelForm):
 IngredientFormSet = formset_factory(IngredientForm)
 
 class InstructionForm(forms.ModelForm):
-	text = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 1}))
+	text = forms.CharField(required=False, widget=forms.Textarea(attrs={'cols': 30, 'rows': 1}))
 
 	class Meta:
 		model = Instruction
