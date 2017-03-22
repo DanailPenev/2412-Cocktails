@@ -137,5 +137,11 @@ def show_cocktail(request, cocktail_name_slug):
 def cocktails(request):
     return render(request, 'cocktails/cocktails.html', {})
 
+@login_required
 def profile(request):
-	return render(request, 'cocktails/profile.html', {})
+	context_dict = {}
+	user = request.user
+	cocktails = Cocktail.objects.filter(author=user)
+	context_dict['user'] = user
+	context_dict['cocktails'] = cocktails
+	return render(request, 'cocktails/profile.html', context_dict)
