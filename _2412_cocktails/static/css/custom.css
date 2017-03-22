@@ -224,3 +224,17 @@ form {
 .pagination>li>a, .pagination>li>span {
     color: #ff6347;
 }
+
+/* Hall of Fame */
+.cocktail-info {
+    position: relative;
+}
+
+.caption{ 
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    width: 100%;
+    color: #fff;
+    opacity: 0.8;
+}
