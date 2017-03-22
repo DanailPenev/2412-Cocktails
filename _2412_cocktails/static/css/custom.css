@@ -153,7 +153,7 @@ form {
 
 /* User profile */
 .profile-head {
-    background-image: url('../images/cocktail.jpg');
+    background-image: url('../images/background.jpg');
     background-position: center;
     background-size: cover;
     min-height: 300px;
@@ -181,39 +181,14 @@ form {
 .profile-head .profile-info {
     min-height: 300px;
     margin: auto;
+    padding: 100px 0px;
 }
 
-.profile-head .profile-info h3 {
-    margin: auto;
+.profile-head .profile-info h2 {
     color: #fff;
-    bottom: 0;
 }
 
-
-
-
-.profile-cover .timeline-nav-bar {
-    background: rgba(0,0,0, .7);
-    width: 100%;
-    position: absolute;
-    bottom: 25px;
-}
-
-.timeline-cover .timeline-nav-bar .profile-info {
-    position: absolute;
-    text-align: center;
-    padding: 0 20px;
-    top: -100px;
-    z-index: 999;
-}
-
-.timeline-cover .timeline-nav-bar ul.profile-menu {
-    margin: 0;
-    display: table;
-}
-
-.timeline-cover .timeline-nav-bar .profile-menu li {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 15px 0;
+.profile-head .profile-info ul {
+    color: #999;
+    font-size: 18px;
 }
