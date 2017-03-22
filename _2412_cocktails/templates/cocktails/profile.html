@@ -38,7 +38,7 @@
         {% for cocktail in cocktails %}
         <div class="col-md-4 col-sm-6 cocktail-info">
             <a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
-                <img class="img-responsive img-portfolio img-hover" src="{{ MEDIA_URL }}/{{ cocktail.picture }}" alt="">
+                <img class="img-responsive img-portfolio img-hover" src={% if cocktail.picture %} "{{MEDIA_URL}}/{{ cocktail.picture }}" {% else %} "{{MEDIA_URL}}/cocktail_images/download.jpg" {% endif %} alt="">
 
                 <div class="caption cocktail-caption">
                     <h2>{{ cocktail.name }}</h2>
@@ -49,7 +49,7 @@
         {% endfor %}
     </div>
 
-    <div class="row text-center">
+    <!-- <div class="row text-center">
        <div class="col-lg-12">
             <ul class="pagination">
                 <li>
@@ -75,7 +75,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
 
 </div>
 {% endblock %}
