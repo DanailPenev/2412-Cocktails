@@ -70,8 +70,6 @@ def upload_cocktail(request):
 		ingredientSet = IngredientFormSet(data=request.POST, prefix="fs1")
 		instructionSet = InstructionFormSet(data=request.POST, prefix="fs2")
 		if cocktail_form.is_valid() and ingredientSet.is_valid() and instructionSet.is_valid():
-			print cocktail_form
-			print request.FILES
 			cocktail = cocktail_form.save(commit=False)
 			if 'picture' in request.FILES:
 				cocktail.picture = request.FILES['picture']
@@ -138,15 +136,18 @@ def show_cocktail(request, cocktail_name_slug):
 		cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
 		ingredients = cocktail.ingredient_set.all()
 		instructions = cocktail.instruction_set.all()
+		owner = request.user==cocktail.author
 
 		context_dict['ingredients'] = ingredients
 		context_dict['instructions'] = instructions
 		context_dict['cocktail'] = cocktail
+		context_dict['owner'] = owner
 
 	except Cocktail.DoesNotExist:
 		context_dict['ingredients'] = None
 		context_dict['instructions'] = None
 		context_dict['cocktail'] = None
+		context_dict['owner'] = False
 
 	return render(request, 'cocktails/show_cocktail.html', context_dict)	
 
@@ -175,16 +176,40 @@ def profile(request):
 @login_required
 def edit_cocktail(request, cocktail_name_slug):
     instance = Cocktail.objects.get(slug=cocktail_name_slug)
+    ingredients = instance.ingredient_set.all()
+    instructions = instance.instruction_set.all()
+    initial_ingr = []
+    initial_instr = []
+    for i in ingredients:
+            initial_ingr.append({'name': i.name, 'type': i.type, 'quantity': i.quantity})
+    for i in instructions:
+            initial_instr.append({'text': i.text})
     cocktail_form = CocktailForm(request.POST or None, instance=instance)
-    ingredientSet = IngredientFormSet(request.POST or None, prefix="fs1")
-    instructionSet = InstructionFormSet(request.POST or None, prefix="fs2")
+    ingredientSet = IngredientFormSet(request.POST or None, initial=initial_ingr, prefix="fs1")
+    instructionSet = InstructionFormSet(request.POST or None, initial=initial_instr, prefix="fs2")
     context_dict = {}
     context_dict['cocktail_form'] = cocktail_form
     context_dict['ingredientSet'] = ingredientSet
     context_dict['instructionSet'] = instructionSet
     if cocktail_form.is_valid() and ingredientSet.is_valid() and instructionSet.is_valid():
-          cocktail_form.save()
-	  ingredientSet.save()
-	  instructionSet.save()
-          return HttpResponseRedirect(reverse('profile'))
+        cocktail = cocktail_form.save()
+        cocktail.ingredient_set.all().delete()
+        cocktail.instruction_set.all().delete()
+        ingredientSet = ingredientSet.cleaned_data
+        print ingredientSet
+        for i in ingredientSet:
+                if bool(i):
+                        print "hui"
+                        temp = Ingredient.objects.get_or_create(quantity=i['quantity'], name=i['name'])
+                        ingredient = temp[0]
+                        if (temp[1]):
+                                ingredient.type = i['type']				
+                                ingredient.cocktails.add(cocktail)
+                                ingredient.save()
+        instructionSet = instructionSet.cleaned_data
+        for i in instructionSet:
+                if bool(i):
+                        instruction = Instruction.objects.get_or_create(cocktail=cocktail, text=i['text'])[0]
+                        instruction.save()
+        return HttpResponseRedirect(reverse('profile'))
     return render(request, 'cocktails/upload_cocktail.html', context_dict) 
