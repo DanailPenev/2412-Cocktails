@@ -1,0 +1,30 @@
+{% extends 'cocktails/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	Hall of Fame
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-offset-2 col-md-8 col-sm-12 text-center">
+			<h2 class="heading">Top Rated Cocktails</h2>
+			<hr>
+		</div>
+		{% for cocktail in cocktails %}
+		<div class="col-md-4 col-sm-6 cocktail-info">
+			<a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
+				<img class="img-responsive img-portfolio img-hover" src="{{ MEDIA_URL }}/{{ cocktail.picture }}" alt="">
+
+				<div class="caption cocktail-caption">
+					<h2>{{ cocktail.name }}</h2>
+					<h4>By {{ cocktail.author }}</h4>
+				</div>
+			</a>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

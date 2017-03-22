@@ -9,27 +9,38 @@
 
 <div class="container">
 	<!-- Cocktail Banner -->
+	<div class="row">
 	<hr>
-	<div class="row cocktail-head">
-		<div class="col-md-2 cocktail-picture">
-			<img src="{% static "images/cocktail.jpg" %}" class="img-responsive">
+		<div class="col-md-6 cocktail-image">
+			<img src="{{ MEDIA_URL }}/{{ cocktail.picture }}" class="img-responsive">
 		</div>
-		<div class="col-md-10 cocktail-info">
-			<h2>Name</h2>
-			<h3>By </h3>
-			<h4>Rating</h4>
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-8 cocktail-info">
+					<h2>{{ cocktail.name }}
+					<div class="rating">
+						<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+					</div></h2>
+					<small>By {{ cocktail.author }} </small>
+					<hr>
+				</div>
+				<div class="col-md-8 cocktail-instructions">
+					<h3>You'll Need</h3>
+					<ul>
+						{% for ingredient in ingredients %}
+							<li>{{ ingredient }}</li>
+						{% endfor %}
+					</ul>
+					<hr>
+					<h3>Instructions</h3>
+					<ul>
+						{% for instruction in instructions %}
+							<li>{{ instruction }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
 		</div>
-	</div>
-
-	<div class="row instructions">
-		<h1>You'll Need</h1>
-			<ul>
-				<li></li>
-			</ul>
-		<h1>Instructions</h1>
-			<ul>
-				<li></li>
-			</ul>
 	</div>
 </div>
 {% endblock %}
