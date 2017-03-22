@@ -14,7 +14,7 @@
 		</div>
 		<div class="login-box">
 			<div class="box-header">
-				<h2>Log In</h2>
+				<h2>Upload Cocktail</h2>
 			</div>
 
 			<form method="post" action="." encrypt="multipart/form-data">
@@ -22,15 +22,15 @@
 				{{ cocktail_form.as_p }}
 				{{ ingredientSet.management_form }}
 				<div style="display:none;" id="form_template_ingredients">
-					{{ ingredientSet.empty_form.as_p }}
+					{{ ingredientSet }}
 				</div>
 				<div id="forms_ingredients"></div>
+				<input type="text" name="quantity" value="" />
+				<input type="submit" id="generate_forms_ingredients" value="Generate Forms" />
+				<input type="text" name="quantity" value="" />
+				<input type="submit" id="generate_forms_instructions" value="Generate Forms" />
 				<input type="submit" name="submit" value="Register" />
 			</form>
-			<input type="text" name="quantity" value="" />
-			<input type="submit" id="generate_forms_ingredients" value="Generate Forms" />
-			<input type="text" name="quantity" value="" />
-			<input type="submit" id="generate_forms_instructions" value="Generate Forms" />
 		</div>
 	</div>
 </div>
