@@ -55,23 +55,42 @@
 							<li>{{ instruction }}</li>
 						{% endfor %}
 					</ul>
-					<ul>
-						<li>
-							<form id="comment_form" method="post" action="{% url 'comment' cocktail_name_slug=cocktail.slug %}">
-								{% csrf_token %}
-								<input type="text" name="comment" placeholder="Add a comment">
-						</li>
-						<li>
-								<input type="submit" value="Post comment">
-							</form>
-						</li>
-						{% for comment in comments %}
-						<li>{{ comment.text }} by {{ comment.user }}</li>
-						{% endfor %}
-					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<hr>
+	<div class="row">
+		<div class="col-md-offset-2 col-md-8 col-sm-12 text-center">
+			<h2 class="heading">Comments</h2>
+			<hr>
+		</div>
+	</div>
+	<div class="row enter-comment">
+		<div class="col-md-1 col-xs-2 comment-user-thumbnail">
+			<img src={% if user.userprofile.picture %} "{{MEDIA_URL}}/{{ user.userprofile.picture }}" {% else %} "{{MEDIA_URL}}profile_pictures/default.jpg" {% endif %} class="img-responsive">
+		</div>
+		<div class="col-md-4 col-xs-8">
+			<form id="comment_form" method="post" action="{% url 'comment' cocktail_name_slug=cocktail.slug %}">
+			{% csrf_token %}
+			<input type="text" name="comment" placeholder="Add a comment">
+			<input type="submit" value="Post comment">
+			</form>
+		</div>
+	</div>
+
+	{% for comment in comments %}	
+	<hr>	
+	<div class="row comment-section">
+		<div class="col-md-1 col-xs-2 comment-user-thumbnail">
+			<img src={% if comment.user.userprofile.picture %} "{{MEDIA_URL}}/{{ comment.user.userprofile.picture }}" {% else %} "{{MEDIA_URL}}profile_pictures/default.jpg" {% endif %} class="img-responsive">
+		</div>
+		<div class="col-md-4 col-xs-8 comment">
+			<a href="{% url 'get_user' user_name=cocktail.author %}">{{ comment.user }} </a><span class="comment-time"> {{ comment.date }}</span><br/>
+		 	{{ comment.text }}  
+		 </div>
+	</div>
+	{% endfor %}
 </div>
 {% endblock %}
