@@ -36,7 +36,7 @@
             <hr>
         </div>
         {% for cocktail in cocktails %}
-        <div class="col-md-4 col-sm-6 cocktail-info">
+        <div class="col-md-4 col-xs-6 cocktail-info">
             <a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
                 <img class="img-responsive img-portfolio img-hover" src={% if cocktail.picture %} "{{MEDIA_URL}}/{{ cocktail.picture }}" {% else %} "{{MEDIA_URL}}/cocktail_images/download.jpg" {% endif %} alt="">
 
@@ -49,33 +49,31 @@
         {% endfor %}
     </div>
 
-    <!-- <div class="row text-center">
-       <div class="col-lg-12">
-            <ul class="pagination">
-                <li>
-                    <a href="#">&laquo;</a>
-                </li>
-                <li class="active">
-                    <a href="#">1</a>
-                </li>
-                <li>
-                    <a href="#">2</a>
-                </li>
-                <li>
-                    <a href="#">3</a>
-                </li>
-                <li>
-                    <a href="#">4</a>
-                </li>
-                <li>
-                    <a href="#">5</a>
-                </li>
-                <li>
-                    <a href="#">&raquo;</a>
-                </li>
-            </ul>
-        </div>
-    </div> -->
+    <!--Pagination -->
+    <div class="row text-center">
+    {% if cocktails.has_other_pages %}
+        <ul class="pagination">
+            {% if cocktails.has_previous %}
+                <li><a href="?page={{ cocktails.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+
+            {% for i in cocktails.paginator.page_range %}
+                {% if cocktails.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if cocktails.has_next %}
+                <li><a href="?page={{ cocktails.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+    </div>
 
 </div>
 {% endblock %}
