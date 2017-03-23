@@ -178,6 +178,23 @@ def show_cocktail(request, cocktail_name_slug):
 	return render(request, 'cocktails/show_cocktail.html', context_dict)	
 
 @login_required
+def rate_cocktail(request, cocktail_name_slug):
+	context_dict = {}
+	cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
+	rate = int(request.POST.get('rating'))
+	voted = True
+	cocktail.rating = (cocktail.rating + rate)/2
+	ingredients = cocktail.ingredient_set.all()
+	instructions = cocktail.instruction_set.all()
+	owner = request.user==cocktail.author
+	context_dict['ingredients'] = ingredients
+	context_dict['instructions'] = instructions
+	context_dict['cocktail'] = cocktail
+	context_dict['owner'] = owner
+	context_dict['voted'] = voted
+	return render(request, 'cocktails/show_cocktail.html', context_dict)
+
+@login_required
 def cocktails(request):
     cocktails = Cocktail.objects.all()
     context_dict = {}
