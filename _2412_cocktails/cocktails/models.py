@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
-from datetime import datetime
+from django.utils import timezone
 
 class Cocktail(models.Model):
 	name = models.CharField(max_length=128, unique=True, null=False)
@@ -10,7 +10,7 @@ class Cocktail(models.Model):
 	picture = models.ImageField(upload_to="cocktail_images", blank=True)
 	rating = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-	date = models.DateTimeField(default=datetime.now, blank=True)
+	date = models.DateTimeField(default=timezone.now, blank=True)
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.name)
