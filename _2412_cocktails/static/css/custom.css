@@ -307,11 +307,16 @@ form {
     height: 300px;
 }
 
+.cocktail-info h2 {
+    display: inline:block;
+}
+
 .rating {
     border: none;
-    float: right;
+    float: left;
     font-size: 20px;
     display: inline;
+
 }
 
 .rating > input {
@@ -342,6 +347,12 @@ form {
 .rating > input:checked ~ label:hover ~ label { 
     color: #000;  
 } 
+
+#rating_form input {
+    font-size: 15px;
+    width: 45px;
+    
+}
 
 .cocktail-info {
     display: inline-block;
