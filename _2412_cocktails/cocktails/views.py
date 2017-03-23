@@ -178,6 +178,18 @@ def show_cocktail(request, cocktail_name_slug):
 	return render(request, 'cocktails/show_cocktail.html', context_dict)	
 
 @login_required
+def show_cocktail_category(request, category):
+	context_dict = {}
+	cocktails = []
+	for cocktail in Cocktail.objects.all():
+		for ingredient in cocktail.ingredient_set.all():
+			if ingredient.name.lower()==category.lower():
+				cocktails.append(cocktail)
+				break
+	context_dict['cocktails'] = cocktails
+	return render(request, 'cocktails/show_cocktail_category.html', context_dict)
+	
+@login_required
 def rate_cocktail(request, cocktail_name_slug):
 	context_dict = {}
 	cocktail = Cocktail.objects.get(slug=cocktail_name_slug)

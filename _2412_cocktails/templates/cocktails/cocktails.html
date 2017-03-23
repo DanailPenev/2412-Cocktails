@@ -10,6 +10,41 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-offset-2 col-md-8 col-sm-12 text-center">
+			<h2 class="heading">Categories</h2>
+			<hr>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-sm-6 cocktail-info">
+			<a href="{% url 'show_cocktail_category' category='tequila' %}">
+				<img class="img-responsive img-portfolio img-hover" src="{% static 'images/tequila.jpg' %}" alt="">
+
+				<div class="caption cocktail-caption">
+					<h2>Cocktails with Tequila</h2>
+				</div>
+			</a>
+		</div>
+		<div class="col-md-4 col-sm-6 cocktail-info">
+			<a href="{% url 'show_cocktail_category' category='vodka' %}">
+				<img class="img-responsive img-portfolio img-hover" src="{% static 'images/vodka.jpg' %}" alt="">
+
+				<div class="caption cocktail-caption">
+					<h2>Cocktails with Vodka</h2>
+				</div>
+			</a>
+		</div>
+		<div class="col-md-4 col-sm-6 cocktail-info">
+			<a href="{% url 'show_cocktail_category' category='whiskey' %}">
+				<img class="img-responsive img-portfolio img-hover" src="{% static 'images/whiskey.jpg' %}" alt="">
+
+				<div class="caption cocktail-caption">
+					<h2>Cocktails with Whiskey</h2>
+				</div>
+			</a>
+		</div>
+	</div>	
+	<div class="row">
+		<div class="col-md-offset-2 col-md-8 col-sm-12 text-center">
 			<h2 class="heading">More Cocktails</h2>
 			<hr>
 		</div>
