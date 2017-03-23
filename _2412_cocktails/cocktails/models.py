@@ -22,7 +22,6 @@ class Cocktail(models.Model):
 	def __unicode__(self):
 		return self.name
 
-
 class Ingredient(models.Model):
 	cocktails = models.ManyToManyField(Cocktail)
 	name = models.CharField(max_length=128, unique=False, null=False)
@@ -54,3 +53,18 @@ class UserProfile(models.Model):
 	
 	def __str__(self):
 		return self.user.username
+		
+	def __unicode__(self):
+		return self.user.username
+		
+class Comment(models.Model):
+	text = models.TextField(unique=False, null=False)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	cocktail = models.ForeignKey(Cocktail, on_delete=models.CASCADE)
+	date = models.DateTimeField(default=timezone.now, blank=True)
+	
+	def __str__(self):
+		return self.text
+		
+	def __unicode__(self):
+		return self.text

@@ -55,6 +55,20 @@
 							<li>{{ instruction }}</li>
 						{% endfor %}
 					</ul>
+					<ul>
+						<li>
+							<form id="comment_form" method="post" action="{% url 'comment' cocktail_name_slug=cocktail.slug %}">
+								{% csrf_token %}
+								<input type="text" name="comment" placeholder="Add a comment">
+						</li>
+						<li>
+								<input type="submit" value="Post comment">
+							</form>
+						</li>
+						{% for comment in comments %}
+						<li>{{ comment.text }} by {{ comment.user }}</li>
+						{% endfor %}
+					</ul>
 				</div>
 			</div>
 		</div>

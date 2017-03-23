@@ -164,20 +164,32 @@ def show_cocktail(request, cocktail_name_slug):
 		ingredients = cocktail.ingredient_set.all()
 		instructions = cocktail.instruction_set.all()
 		owner = request.user==cocktail.author
+		comments = cocktail.comment_set.all()
 
 		context_dict['ingredients'] = ingredients
 		context_dict['instructions'] = instructions
 		context_dict['cocktail'] = cocktail
 		context_dict['owner'] = owner
+		context_dict['comments'] = comments
 
 	except Cocktail.DoesNotExist:
 		context_dict['ingredients'] = None
 		context_dict['instructions'] = None
 		context_dict['cocktail'] = None
 		context_dict['owner'] = False
+		context_dict['comments'] = None
 
 	return render(request, 'cocktails/show_cocktail.html', context_dict)	
 
+@login_required
+def add_comment(request, cocktail_name_slug):
+	text = request.POST.get('comment')
+	comment = Comment(text=text)
+	comment.user = request.user
+	comment.cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
+	comment.save()
+	return HttpResponseRedirect(reverse('show_cocktail', kwargs={'cocktail_name_slug': cocktail_name_slug}))
+	
 @login_required
 def delete_cocktail(request, cocktail_name_slug):
 	u = request.user

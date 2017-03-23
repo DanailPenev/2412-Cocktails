@@ -15,6 +15,7 @@ urlpatterns = [
 	url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/edit/$', views.edit_cocktail, name='edit_cocktail'),
 	url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/delete/$', views.delete_cocktail, name='delete_cocktail'),
 	url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/rate/$', views.rate_cocktail, name='rate'),
+	url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/comment/$', views.add_comment, name='comment'),
 	url(r'^about/$', views.about, name='about'),
 	url(r'^help/$', views.help, name='help'),
 	url(r'^halloffame/$', views.hallOfFame, name='hof'),
