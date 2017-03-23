@@ -36,7 +36,7 @@ class Ingredient(models.Model):
 		return self.name
 		
 class Instruction(models.Model):
-	cocktail = models.ForeignKey(Cocktail)
+	cocktail = models.ForeignKey(Cocktail, on_delete=models.CASCADE)
 	text = models.TextField(unique=False, null=False)
 
 	def __str__(self):

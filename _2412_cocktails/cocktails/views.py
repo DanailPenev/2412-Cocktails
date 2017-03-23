@@ -179,6 +179,14 @@ def show_cocktail(request, cocktail_name_slug):
 	return render(request, 'cocktails/show_cocktail.html', context_dict)	
 
 @login_required
+def delete_cocktail(request, cocktail_name_slug):
+	u = request.user
+	cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
+	if u==cocktail.author:
+		cocktail.delete()
+	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': u.username}))
+	
+@login_required
 def show_cocktail_category(request, category):
 	context_dict = {}
 	cocktails = []
@@ -247,7 +255,7 @@ def get_user(request, user_name):
                 cocktail_recipes = paginator.page(paginator.num_pages)
 
 	owner = user==request.user
-	uploads = len(cocktail_recipes)
+	uploads = len(cocktails)
 	following = False
 	if not owner and user.userprofile in request.user.userprofile.follows.all():
 		following = True
