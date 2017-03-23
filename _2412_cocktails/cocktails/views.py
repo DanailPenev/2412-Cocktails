@@ -123,6 +123,7 @@ def user_login(request):
 			redirected = True
 		return render(request, 'cocktails/login.html', {'redirected': redirected})
 
+@login_required
 def change_password(request):
 	context_dict = {}
 	if request.method == 'POST':
@@ -141,11 +142,16 @@ def change_password(request):
 			return render(request, 'cocktails/change_password.html', context_dict)
 	return render(request, 'cocktails/change_password.html', context_dict)
 
-
-
 @login_required
 def user_logout(request):
 	logout(request)
+	return HttpResponseRedirect(reverse('index'))
+
+@login_required
+def delete_user(request):
+	u = request.user
+	logout(request)
+	User.objects.filter(username=u.username).delete()
 	return HttpResponseRedirect(reverse('index'))
 
 @login_required
