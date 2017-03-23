@@ -22,7 +22,7 @@ def help(request):
 @login_required	
 def hallOfFame(request):
 	context_dict = {}
-	cocktails = Cocktail.objects.order_by('-rating')[:5]
+	cocktails = Cocktail.objects.order_by('-rating')[:6]
 	context_dict['cocktails'] = cocktails
 	return render(request, 'cocktails/hof.html', context_dict)
 
@@ -184,6 +184,7 @@ def rate_cocktail(request, cocktail_name_slug):
 	rate = int(request.POST.get('rating'))
 	voted = True
 	cocktail.rating = (cocktail.rating + rate)/2
+	cocktail.save()
 	ingredients = cocktail.ingredient_set.all()
 	instructions = cocktail.instruction_set.all()
 	owner = request.user==cocktail.author
@@ -196,7 +197,7 @@ def rate_cocktail(request, cocktail_name_slug):
 
 @login_required
 def cocktails(request):
-    cocktails = Cocktail.objects.all()
+    cocktails = Cocktail.objects.all().order_by('-date')
     context_dict = {}
     context_dict['cocktails'] = cocktails
     return render(request, 'cocktails/cocktails.html', context_dict)

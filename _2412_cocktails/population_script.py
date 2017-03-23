@@ -1,4 +1,4 @@
-import os
+import os, time
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', '_2412_cocktails.settings')
 
 import django
@@ -8,7 +8,49 @@ from django.core.files import File
 
 def populate():
 
-	menu = { 
+	u = User.objects.get_or_create(username="test")[0]
+	u.save()
+
+	for cocktail in menu:
+		c = add_cocktail(cocktail, menu[cocktail]["rating"], u, menu[cocktail]["picture"])
+		for ingredient in menu[cocktail]["ingredients"]:
+			add_ingredient(c, ingredient[0], ingredient[1], ingredient[2])
+		for instruction in menu[cocktail]["instructions"]:
+			add_instruction(c, instruction)
+		time.sleep(0.5)
+		
+
+	for c in Cocktail.objects.all():
+		for i in Instruction.objects.filter(cocktail=c):
+			print "- {0} - {1}".format(str(c), str(i))
+		for n in c.ingredient_set.all():
+			print "- {0} - {1}".format(str(c), str(n))
+
+
+
+
+def add_cocktail(name, rating, user, picture):
+	c = Cocktail.objects.get_or_create(name=name)[0]
+	c.rating = rating
+	c.author = user
+	path = "cocktail_images/" + picture
+	c.picture = path
+	c.save()
+	return c
+
+def add_ingredient(cock, quan, name, type):
+	i = Ingredient.objects.get_or_create(quantity=quan, name=name)[0]
+	i.cocktails.add(cock)
+	i.type=type
+	i.save()
+	return i
+
+def add_instruction(cock, instr):
+	i = Instruction.objects.get_or_create(cocktail=cock, text=instr)[0]
+	i.save()
+
+
+menu = { 
 		"Mojito" : { 
 			"ingredients" : [
 				["2 parts", "white rum", "alcoholic"],
@@ -46,50 +88,79 @@ def populate():
 				"Add your garnishes. Any fresh herbs and a celery stick work well.",
 				"* if you're making Bloody Marys for a group of people, make a jug without spice and let people add their own Tabasco. Some like it hot, others not so much!",],
 			"rating" : 4.2,
-			"picture": "bloodymary.jpg"},}
+			"picture": "bloodymary.jpg"},
+			
+		"Passionfruit Margarita" : {
+			"ingredients" : [
+				["a lot of", "Tequila", "alcoholic"],
+				["some", "Passionfruit syrup", "non-alcoholic"],
+				["a little", "Fresh lime juice", "non-alcoholic"],
+				["a tiny bit of", "sugar rim", "non-alcoholic"],],
+			"instructions" : [
+				"Chill a cocktail glass with crushed ice",
+				"Add all ingredients to a Boston glass and shake with cubed ice",
+				"Remove crushed ice, rim the glass with sugar",
+				"Strain the mixture into the glass",],
+			"rating" : 3.56,
+			"picture": "passionfruit_margarita.jpg"},
+			
+		"Manhattan" : {
+			"ingredients" : [
+				["100 ml", "Whiskey", "alcoholic"],
+				["50 ml", "Sweet vermouth", "alcoholic"],
+				["dash", "Aromatic bitters", "alcoholic"],],
+			"instructions" : [
+				"Chill a cocktail glass with ice",
+				"Add the ingredients and stir until the outside of the Boeston glass clouds up with the chill",
+				"Remove chilling ice and strain into cocktail glass. Garnish with a cocktail cherry",],
+			"rating" : 3.71,
+			"picture" : "manhattan.jpg"},
+			
+		"Cosmopolitan" : {
+			"ingredients" : [
+				["50 ml", "Vodka", "alcoholic"],
+				["10 ml", "Cointreau", "alcoholic"],
+				["30 ml", "Lime Juice", "non-alcoholic"],
+				["30 ml", "Cranberry Juice", "non-alcoholic"],],
+			"instructions" : [
+				"Chill a cocktail glass with crushed ice",
+				"Add all ingredients to a Boston glass and shake with cubed ice",
+				"Remove crushed ice and strain the mixture into the glass",
+				"Take a slice of orange rind, hold it between the thumb and forefinger over the glass in front of a ligther flame and squeeze the orange rind quickly. This should light the zest and create an awesome aroma above the cocktail.",],
+			"rating" : 2.2,
+			"picture" : "cosmopolitan.jpg"},
+			
+		"Raspberry Lynchburg" : {
+			"ingredients" : [
+				["50 ml", "Whiskey", "alcoholic"],
+				["10 ml", "Chambord", "alcoholic"],
+				["10g", "Raspberry puree", "fruit"],
+				["30 ml", "Lemon Juice", "non-alcoholic"],
+				["1", "Egg white", "food"],
+				["50 ml", "Lemonade", "non-alcoholic"],],
+			"instructions" : [
+				"Fill a long glass with cubed ice",
+				"Add all ingredients except the lemonade to a Boston glass",
+				"Shake the ingredients (without ice) and pour over cubed ice",
+				"Top with lemonade",
+				"Garnish with a lemon wedge and a straw",],
+			"rating": 2.8,
+			"picture" : "raspberry_lynchburg.jpg"},
 
-	u = User.objects.get_or_create(username="test")[0]
-	u.save()
-
-
-	for cocktail in menu:
-		c = add_cocktail(cocktail, menu[cocktail]["rating"], u, menu[cocktail]["picture"])
-		for ingredient in menu[cocktail]["ingredients"]:
-			add_ingredient(c, ingredient[0], ingredient[1], ingredient[2])
-		for instruction in menu[cocktail]["instructions"]:
-			add_instruction(c, instruction)
-		
-
-	for c in Cocktail.objects.all():
-		for i in Instruction.objects.filter(cocktail=c):
-			print "- {0} - {1}".format(str(c), str(i))
-		for n in c.ingredient_set.all():
-			print "- {0} - {1}".format(str(c), str(n))
-
-
-
-
-def add_cocktail(name, rating, user, picture):
-	c = Cocktail.objects.get_or_create(name=name)[0]
-	c.rating = rating
-	c.author = user
-	path = "cocktail_images/" + picture
-	c.picture = path
-	c.save()
-	return c
-
-def add_ingredient(cock, quan, name, type):
-	i = Ingredient.objects.get_or_create(quantity=quan, name=name)[0]
-	i.cocktails.add(cock)
-	i.type=type
-	i.save()
-	return i
-
-def add_instruction(cock, instr):
-	i = Instruction.objects.get_or_create(cocktail=cock, text=instr)[0]
-	i.save()
-
-
+		"Coco Italiano" : {
+			"ingredients" : [
+				["50 ml", "Tequila", "alcoholic"],
+				["10 ml", "Campari", "alcoholic"],
+				["25 ml", "Martini Rosso", "alcoholic"],
+				["30 ml", "Coconut Syrup", "non-alcoholic"],],
+			"instructions" : [
+				"Add all the ingredients to a mixing glass and stir until the glass clouds us",
+				"Strain into a chilled Nick & Nora glass",],
+			"rating" : 4.13,
+			"picture" : "coco_italiano.jpg"},
+		}
+	
+	
 if __name__ == '__main__':
 	print("Starting Population script...")
 	populate()
