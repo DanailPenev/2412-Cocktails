@@ -9,7 +9,13 @@ from django.core.files import File
 def populate():
 
 	u = User.objects.get_or_create(username="test")[0]
+	u.set_password("password123")
 	u.save()
+	
+	p = UserProfile()
+	p.dob="2017-03-23"
+	p.user = u
+	p.save()
 
 	for cocktail in menu:
 		c = add_cocktail(cocktail, menu[cocktail]["rating"], u, menu[cocktail]["picture"])
