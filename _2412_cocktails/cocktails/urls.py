@@ -10,6 +10,7 @@ urlpatterns = [
 	url(r'^change_password/$', views.change_password, name='change_password'),
 	url(r'^delete_user/$', views.delete_user, name='delete_user'),
 	url(r'^cocktails/upload/$', views.upload_cocktail, name='upload_cocktail'),
+	url(r'^cocktails/category/(?P<category>[\w\-]+)/$', views.show_cocktail_category, name='show_cocktail_category'),
     url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/$', views.show_cocktail, name='show_cocktail'),
 	url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/edit/$', views.edit_cocktail, name='edit_cocktail'),
 	url(r'^cocktails/(?P<cocktail_name_slug>[\w\-]+)/rate/$', views.rate_cocktail, name='rate'),
@@ -19,4 +20,6 @@ urlpatterns = [
     url(r'^cocktails/$', views.cocktails, name='cocktails'),
     url(r'^profile/$', views.profile, name='profile'),
 	url(r'^users/(?P<user_name>[\w\-]+)/$', views.get_user, name='get_user'),
+	url(r'^users/(?P<user_name>[\w\-]+)/follow/$', views.follow_user, name='follow_user'),
+	url(r'^users/(?P<user_name>[\w\-]+)/unfollow/$', views.unfollow_user, name='unfollow_user'),
 ]

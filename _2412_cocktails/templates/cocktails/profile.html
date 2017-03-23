@@ -17,8 +17,8 @@
 		<div class="col-md-8 profile-info">
 			<h2>{{ user.username }}</h2>
 			<ul class="list-inline profile-menu">
-				<li>Followers: {{ user.followers }}</li>
-				<li>Following: {{ user.following }}</li>
+				<li>Followers: {{ followers.count }}</li>
+				<li>Following: {{ follows }}</li>
 				<li>Uploads: {{ uploads }}</li>
 			</ul>
 		</div>
@@ -31,7 +31,11 @@
 			{% if owner %}
                 <a href="{% url 'upload_cocktail' %}" class="btn btn-info upload-button" role="button">Upload</a></h2>
 			{% else %}
-			 <a href="" class="btn btn-info upload-button" role="button">Follow</a></h2>
+				{% if following %}
+					<a href="{% url 'unfollow_user' user_name=user.username %}" class="btn btn-info upload-button" role="button">Unfollow</a></h2>
+				{% else %}
+					<a href="{% url 'follow_user' user_name=user.username %}" class="btn btn-info upload-button" role="button">Follow</a></h2>
+				{% endif %}
 			{% endif %}
             <hr>
         </div>
@@ -74,6 +78,5 @@
         </ul>
     {% endif %}
     </div>
-
 </div>
 {% endblock %}

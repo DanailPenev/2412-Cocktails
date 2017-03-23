@@ -48,12 +48,9 @@ class Instruction(models.Model):
 class UserProfile(models.Model):
 	#Links UserProfile to a User model instance
 	user = models.OneToOneField(User)
-	followee = models.ForeignKey('self', null=True)
 	picture = models.ImageField(upload_to="profile_pictures", blank=True)	
 	dob = models.DateField(auto_now=False, auto_now_add=False)
+	follows = models.ManyToManyField('self', related_name='follower', symmetrical=False)
 	
-	def save(self, checkFollowee=True):
-		super(UserProfile, self).save()
-		if self.followee and checkFollowee:
-			self.followee.followee = self
-			self.followee.save(checkFollowee=False)
+	def __str__(self):
+		return self.user.username

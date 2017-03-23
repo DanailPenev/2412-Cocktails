@@ -179,6 +179,18 @@ def show_cocktail(request, cocktail_name_slug):
 	return render(request, 'cocktails/show_cocktail.html', context_dict)	
 
 @login_required
+def show_cocktail_category(request, category):
+	context_dict = {}
+	cocktails = []
+	for cocktail in Cocktail.objects.all():
+		for ingredient in cocktail.ingredient_set.all():
+			if ingredient.name.lower()==category.lower():
+				cocktails.append(cocktail)
+				break
+	context_dict['cocktails'] = cocktails
+	return render(request, 'cocktails/show_cocktail_category.html', context_dict)
+	
+@login_required
 def rate_cocktail(request, cocktail_name_slug):
 	context_dict = {}
 	cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
@@ -236,13 +248,38 @@ def get_user(request, user_name):
 
 	owner = user==request.user
 	uploads = len(cocktail_recipes)
+	following = False
+	if not owner and user.userprofile in request.user.userprofile.follows.all():
+		following = True
+	follows = len(user.userprofile.follows.all())
+	followers = user.userprofile.follower.all()
 	context_dict['user'] = user
 	context_dict['cocktails'] = cocktail_recipes
 	context_dict['owner'] = owner
+	context_dict['following'] = following
 	context_dict['uploads'] = uploads
-
+	context_dict['follows'] = follows
+	context_dict['followers'] = followers
 	return render(request, 'cocktails/profile.html', context_dict)
+
+@login_required
+def follow_user(request, user_name):
+	context_dict = {}
+	user = User.objects.get(username=user_name)
+	follower = request.user
+	follower.userprofile.follows.add(user.userprofile)
+	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
 	
+@login_required
+def unfollow_user(request, user_name):
+	context_dict = {}
+	user = User.objects.get(username=user_name)
+	follower = request.user
+	following = True
+	if user.userprofile in request.user.userprofile.follows.all():
+		follower.userprofile.follows.remove(user.userprofile)
+		following = False
+	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
 
 @login_required
 def profile(request):
