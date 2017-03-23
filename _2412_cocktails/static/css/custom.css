@@ -358,6 +358,14 @@ form {
     display: inline-block;
 }
 
+.delete-button {
+    float: right;
+    background-color: #ff6347;
+    border-color: #ff6347;
+    position: relative;
+    left: 5%;
+}
+
 /*  About */
 .thumbnail > img {
     max-width: 750px;
