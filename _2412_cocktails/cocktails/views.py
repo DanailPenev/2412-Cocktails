@@ -5,6 +5,7 @@ from cocktails.forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def index(request):
@@ -210,24 +211,50 @@ def rate_cocktail(request, cocktail_name_slug):
 @login_required
 def cocktails(request):
     cocktails = Cocktail.objects.all().order_by('-date')
-    context_dict = {}
-    context_dict['cocktails'] = cocktails
-    return render(request, 'cocktails/cocktails.html', context_dict)
+    #Paginator
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(cocktails, 6)
+
+    try:
+    	cocktail_recipes = paginator.page(page)
+
+    except PageNotAnInteger:
+    	cocktail_recipes = paginator.page(1)
+
+    except EmptyPage:
+    	cocktail_recipes = paginator.page(paginator.num_pages)
+
+    return render(request, 'cocktails/cocktails.html', { 'cocktails': cocktail_recipes})
 
 @login_required	
 def get_user(request, user_name):
 	context_dict = {}
 	user = User.objects.get(username=user_name)
 	cocktails = Cocktail.objects.filter(author=user)
+	# Paginator
+	page = request.GET.get('page', 1)
+
+        paginator = Paginator(cocktails, 6)
+
+        try:
+                cocktail_recipes = paginator.page(page)
+
+        except PageNotAnInteger:
+                cocktail_recipes = paginator.page(1)
+
+        except EmptyPage:
+                cocktail_recipes = paginator.page(paginator.num_pages)
+
 	owner = user==request.user
+	uploads = len(cocktail_recipes)
 	following = False
 	if not owner and user.userprofile in request.user.userprofile.follows.all():
 		following = True
-	uploads = len(cocktails)
 	follows = len(user.userprofile.follows.all())
 	followers = user.userprofile.follower.all()
 	context_dict['user'] = user
-	context_dict['cocktails'] = cocktails
+	context_dict['cocktails'] = cocktail_recipes
 	context_dict['owner'] = owner
 	context_dict['following'] = following
 	context_dict['uploads'] = uploads
