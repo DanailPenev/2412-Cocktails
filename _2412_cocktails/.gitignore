@@ -1,12 +1,15 @@
-# ignores all .txt files JUST in the current folder
+# ignores all .pyc files JUST in the current folder
 *.pyc
  
-# ignores all .txt recursive from the current folder
+# ignores all .pyc recursive from the current folder
 **.pyc
  
-# ignores all .txt in subdirectories recursive from the current 
+# ignores all .pyc in subdirectories recursive from the current 
 # folder (does not include the current folder)
 **/*.pyc
 
 # ignore the database
 db.sqlite3
+
+# ignore migrations
+cocktails/migrations/*

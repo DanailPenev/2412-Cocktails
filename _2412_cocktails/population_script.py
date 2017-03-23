@@ -7,15 +7,11 @@ from cocktails.models import *
 from django.core.files import File
 
 def populate():
-
-	u = User.objects.get_or_create(username="test")[0]
-	u.set_password("password123")
-	u.save()
 	
-	p = UserProfile()
-	p.dob="2017-03-23"
-	p.user = u
-	p.save()
+	u = add_user("test", "password123", "2017-03-23")
+	for user in users:
+		test = add_user(user, "password123", "1987-02-28")
+		test.userprofile.follows.add(u.userprofile)
 
 	for cocktail in menu:
 		c = add_cocktail(cocktail, menu[cocktail]["rating"], u, menu[cocktail]["picture"])
@@ -33,7 +29,21 @@ def populate():
 			print "- {0} - {1}".format(str(c), str(n))
 
 
-
+def add_user(username, password, dob):
+	temp = User.objects.get_or_create(username=username)
+	u = temp[0]
+	u.set_password(password)
+	u.save()
+	
+	if temp[1]:
+		p = UserProfile()
+		p.dob=dob
+		p.user=u
+	else:
+		p = u.userprofile
+		p.dob=dob
+	p.save()
+	return u
 
 def add_cocktail(name, rating, user, picture):
 	c = Cocktail.objects.get_or_create(name=name)[0]
@@ -55,6 +65,7 @@ def add_instruction(cock, instr):
 	i = Instruction.objects.get_or_create(cocktail=cock, text=instr)[0]
 	i.save()
 
+users = ["Vincent", "Deadward", "LilVinnie", "JohnCena"] 
 
 menu = { 
 		"Mojito" : { 
