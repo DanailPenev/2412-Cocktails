@@ -220,13 +220,39 @@ def get_user(request, user_name):
 	user = User.objects.get(username=user_name)
 	cocktails = Cocktail.objects.filter(author=user)
 	owner = user==request.user
+	following = False
+	if not owner and user.userprofile in request.user.userprofile.follows.all():
+		following = True
 	uploads = len(cocktails)
+	follows = len(user.userprofile.follows.all())
+	followers = user.userprofile.follower.all()
 	context_dict['user'] = user
 	context_dict['cocktails'] = cocktails
 	context_dict['owner'] = owner
+	context_dict['following'] = following
 	context_dict['uploads'] = uploads
+	context_dict['follows'] = follows
+	context_dict['followers'] = followers
 	return render(request, 'cocktails/profile.html', context_dict)
+
+@login_required
+def follow_user(request, user_name):
+	context_dict = {}
+	user = User.objects.get(username=user_name)
+	follower = request.user
+	follower.userprofile.follows.add(user.userprofile)
+	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
 	
+@login_required
+def unfollow_user(request, user_name):
+	context_dict = {}
+	user = User.objects.get(username=user_name)
+	follower = request.user
+	following = True
+	if user.userprofile in request.user.userprofile.follows.all():
+		follower.userprofile.follows.remove(user.userprofile)
+		following = False
+	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
 
 @login_required
 def profile(request):

@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^cocktails/$', views.cocktails, name='cocktails'),
     url(r'^profile/$', views.profile, name='profile'),
 	url(r'^users/(?P<user_name>[\w\-]+)/$', views.get_user, name='get_user'),
+	url(r'^users/(?P<user_name>[\w\-]+)/follow/$', views.follow_user, name='follow_user'),
+	url(r'^users/(?P<user_name>[\w\-]+)/unfollow/$', views.unfollow_user, name='unfollow_user'),
 ]
