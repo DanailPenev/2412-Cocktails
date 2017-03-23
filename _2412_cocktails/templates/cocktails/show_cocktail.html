@@ -21,6 +21,7 @@
 					<h2>{{ cocktail.name }}
 					{% if owner %}
 						<a href="{% url 'edit_cocktail' cocktail_name_slug=cocktail.slug %}" class="btn btn-info upload-button" role="button"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+						<a href="{% url 'delete_cocktail' cocktail_name_slug=cocktail.slug %}" class="btn btn-info delete-button" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a>
 					{% else %}
 					<form id="rating_form" method="post" action="{% url 'rate' cocktail_name_slug=cocktail.slug %}">
 						{% csrf_token %}
