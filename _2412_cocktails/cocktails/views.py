@@ -164,7 +164,7 @@ def show_cocktail(request, cocktail_name_slug):
 		ingredients = cocktail.ingredient_set.all()
 		instructions = cocktail.instruction_set.all()
 		owner = request.user==cocktail.author
-		comments = cocktail.comment_set.all()
+		comments = cocktail.comment_set.all().order_by('-date')
 
 		context_dict['ingredients'] = ingredients
 		context_dict['instructions'] = instructions
