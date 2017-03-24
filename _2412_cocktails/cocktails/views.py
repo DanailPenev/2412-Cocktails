@@ -175,8 +175,6 @@ def unfollow_user(request, user_name):
 		follower.userprofile.follows.remove(user.userprofile)
 		following = False
 	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
-	
-
 
 # --------------------------- VIEWS TO SHOW COCKTAILS ----------------------------------------	
 @login_required
@@ -184,7 +182,6 @@ def cocktails(request):
     cocktails = Cocktail.objects.all().order_by('-date')
     #Paginator
     page = request.GET.get('page', 1)
-
     paginator = Paginator(cocktails, 6) #to display 6 on one page
 
     try:
@@ -250,10 +247,13 @@ def upload_cocktail(request):
 	# successful upload?
 	uploaded = False
 	
+	# if the request was a POST, try adding the new cocktail to the database
+	# else return the empty form
 	if request.method == 'POST':
 		cocktail_form = CocktailForm(data=request.POST)
 		ingredientSet = IngredientFormSet(data=request.POST, prefix="fs1")
 		instructionSet = InstructionFormSet(data=request.POST, prefix="fs2")
+		
 		if cocktail_form.is_valid() and ingredientSet.is_valid() and instructionSet.is_valid():
 			cocktail = cocktail_form.save(commit=False)
 			if 'picture' in request.FILES:
@@ -272,6 +272,7 @@ def upload_cocktail(request):
 			for i in instructionSet:
 				instruction = Instruction.objects.get_or_create(cocktail=cocktail, text=i['text'])[0]
 				instruction.save()
+				
 		return HttpResponseRedirect(reverse('index'))
 			
 	else:
@@ -288,6 +289,8 @@ def upload_cocktail(request):
 
 @login_required
 def edit_cocktail(request, cocktail_name_slug):
+	# this view is really big, it basically repopulates the form with the information already in the database
+	# additional comments are not provided below as to not additionally cluster the code
     instance = Cocktail.objects.get(slug=cocktail_name_slug)
     if request.user!=instance.author:
             return HttpResponseRedirect(reverse('index'))
@@ -314,7 +317,6 @@ def edit_cocktail(request, cocktail_name_slug):
         print ingredientSet
         for i in ingredientSet:
                 if bool(i):
-                        print "hui"
                         temp = Ingredient.objects.get_or_create(quantity=i['quantity'], name=i['name'])
                         ingredient = temp[0]
                         if (temp[1]):
@@ -349,6 +351,8 @@ def add_comment(request, cocktail_name_slug):
 	
 @login_required
 def rate_cocktail(request, cocktail_name_slug):
+	# view to update the cocktail rating
+	# the algorithm is not sophisticated at all but it is here as a proof of concept
 	context_dict = {}
 	cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
 	rate = int(request.POST.get('rating'))
