@@ -234,7 +234,7 @@ def cocktails(request):
     #Paginator
     page = request.GET.get('page', 1)
 
-    paginator = Paginator(cocktails, 6)
+    paginator = Paginator(cocktails, 6) #to display 6 on one page
 
     try:
     	cocktail_recipes = paginator.page(page)
@@ -255,7 +255,7 @@ def get_user(request, user_name):
 	# Paginator
 	page = request.GET.get('page', 1)
 
-        paginator = Paginator(cocktails, 6)
+        paginator = Paginator(cocktails, 6) #to display 6 on one page 
 
         try:
                 cocktail_recipes = paginator.page(page)
@@ -348,4 +348,4 @@ def edit_cocktail(request, cocktail_name_slug):
                         instruction = Instruction.objects.get_or_create(cocktail=cocktail, text=i['text'])[0]
                         instruction.save()
         return HttpResponseRedirect(reverse('profile'))
-    return render(request, 'cocktails/upload_cocktail.html', context_dict) 
+    return render(request, 'cocktails/upload_cocktail.html', context_dict)
