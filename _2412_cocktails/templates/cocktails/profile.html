@@ -28,11 +28,14 @@
 	<div class="row">
         <div class="col-md-offset-2 col-md-8 col-sm-12 text-center upload">
             <h2 class="heading">Uploaded Cocktails
+            <!-- If user's own profile -->
 			{% if owner %}
                 <a href="{% url 'upload_cocktail' %}" class="btn btn-info upload-button" role="button">Upload</a></h2>
 			{% else %}
+                <!-- If user is already following profile -->
 				{% if following %}
 					<a href="{% url 'unfollow_user' user_name=user.username %}" class="btn btn-info upload-button" role="button">Unfollow</a></h2>
+                <!-- If user is not following profile -->
 				{% else %}
 					<a href="{% url 'follow_user' user_name=user.username %}" class="btn btn-info upload-button" role="button">Follow</a></h2>
 				{% endif %}
@@ -40,6 +43,7 @@
             <hr>
         </div>
         
+        <!-- View user's uploaded cocktails -->
         {% for cocktail in cocktails %}
         <div class="col-md-4 col-xs-6 cocktail-info">
             <a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">

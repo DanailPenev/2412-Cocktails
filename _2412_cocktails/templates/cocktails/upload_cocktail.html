@@ -12,6 +12,7 @@
 			<div class="box-header">
 				<h2>Upload Cocktail</h2>
 			</div>
+			<!-- Cocktail upload form -->
 			<form id="myForm" enctype="multipart/form-data" method="post" action="" >
 				{% csrf_token %}
 				{{ cocktail_form.as_p }}
