@@ -11,13 +11,10 @@
 	<div class="row">
 	<hr>
 		<!-- Cocktail Information -->
-		<div class="col-md-6 cocktail-image">
-			<img src={% if cocktail.picture %} "{{MEDIA_URL}}/{{ cocktail.picture }}" {% else %} "{{MEDIA_URL}}/cocktail_images/download.jpg" {% endif %} class="img-responsive">
-		</div>
-
 		<div class="col-md-6">
-			<div class="row">
-				<div class="col-md-8 cocktail-info">
+			<img src={% if cocktail.picture %} "{{MEDIA_URL}}/{{ cocktail.picture }}" {% else %} "{{MEDIA_URL}}/cocktail_images/download.jpg" {% endif %} class="img-responsive cocktail-image">
+
+			<div class="col-md-8 cocktail-info">
 					<h2>{{ cocktail.name }}
 					{% if owner %}
 						<a href="{% url 'delete_cocktail' cocktail_name_slug=cocktail.slug %}" class="btn btn-info delete-button" role="button" onclick="return confirm('Are you sure?')"><span class="glyphicon glyphicon-remove"></span> Delete</a>
@@ -42,6 +39,11 @@
 					<br/>Rating: {{ cocktail.rating }}</small>
 					<hr>
 				</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="row">
+				
 
 				<!-- Instruction and Ingredients -->
 				<div class="col-md-8 cocktail-instructions">
