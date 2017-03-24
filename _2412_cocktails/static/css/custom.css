@@ -30,7 +30,8 @@ body {
     color: #fff;
 }
 
-.navbar-inverse .navbar-brand:focus, .navbar-inverse .navbar-brand:hover {
+.navbar-inverse .navbar-brand:focus, 
+.navbar-inverse .navbar-brand:hover {
     color: #000;
 }
 
@@ -38,7 +39,8 @@ body {
     color: #fff;
 }
 
-.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
+.navbar-inverse .navbar-nav>li>a:focus, 
+.navbar-inverse .navbar-nav>li>a:hover {
     color: #000;
 }
 
@@ -249,12 +251,18 @@ form {
 }
 
 /* Pagination */
-.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+.pagination>.active>a, 
+.pagination>.active>a:focus, 
+.pagination>.active>a:hover, 
+.pagination>.active>span, 
+.pagination>.active>span:focus, 
+.pagination>.active>span:hover {
     background-color: #ff6347;
     border-color: #ff6347;
 }
 
-.pagination>li>a, .pagination>li>span {
+.pagination>li>a, 
+.pagination>li>span {
     color: #ff6347;
 }
 
@@ -362,7 +370,7 @@ form {
 }
 
 .comment-time {
-    font-size: 12px;
+    font-size: 11px;
     color: #888;
 }
 

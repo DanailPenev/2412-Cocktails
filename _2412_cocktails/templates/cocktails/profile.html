@@ -8,9 +8,9 @@
 {% block body_block %}
 
 <div class="container">
+	<br/>
 	<!-- Profile Banner -->
-	<hr>
-	<div class="row profile-head">
+    <div class="row profile-head">
 	    <div class="col-md-4 profile-picture">
 			<img src={% if user.userprofile.picture %} "{{MEDIA_URL}}/{{ user.userprofile.picture }}" {% else %} "{{MEDIA_URL}}profile_pictures/default.jpg" {% endif %} class="img-responsive">
 		</div>
@@ -39,6 +39,7 @@
 			{% endif %}
             <hr>
         </div>
+        
         {% for cocktail in cocktails %}
         <div class="col-md-4 col-xs-6 cocktail-info">
             <a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
@@ -53,7 +54,7 @@
         {% endfor %}
     </div>
 
-    <!--Pagination -->
+    <!--Pagination to display six in a page-->
     <div class="row text-center">
     {% if cocktails.has_other_pages %}
         <ul class="pagination">

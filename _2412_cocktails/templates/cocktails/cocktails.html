@@ -7,14 +7,15 @@
 
 {% block body_block %}
 
-<!-- Categories -->
 <div class="container">
+	<!-- Different Categories -->
 	<div class="row">
 		<div class="col-md-offset-2 col-md-8 col-sm-12 text-center">
 			<h2 class="heading">Categories</h2>
 			<hr>
 		</div>
 	</div>
+
 	<div class="row">
 		<div class="col-md-4 col-sm-6 cocktail-info">
 			<a href="{% url 'show_cocktail_category' category='tequila' %}">
@@ -25,6 +26,7 @@
 				</div>
 			</a>
 		</div>
+
 		<div class="col-md-4 col-sm-6 cocktail-info">
 			<a href="{% url 'show_cocktail_category' category='vodka' %}">
 				<img class="img-responsive img-portfolio img-hover" src="{% static 'images/vodka.jpg' %}" alt="">
@@ -34,6 +36,7 @@
 				</div>
 			</a>
 		</div>
+		
 		<div class="col-md-4 col-sm-6 cocktail-info">
 			<a href="{% url 'show_cocktail_category' category='whiskey' %}">
 				<img class="img-responsive img-portfolio img-hover" src="{% static 'images/whiskey.jpg' %}" alt="">
@@ -44,12 +47,15 @@
 			</a>
 		</div>
 	</div>	
+	
 	<div class="row">
 		<div class="col-md-offset-2 col-md-8 col-sm-12 text-center">
 			<h2 class="heading">More Cocktails</h2>
 			<hr>
 		</div>
 	</div>
+
+	<!-- More user uploaded cocktails -->
 	<div class="row">
 		{% for cocktail in cocktails %}
 		<div class="col-md-4 col-xs-6 cocktail-info">
@@ -65,7 +71,7 @@
 		{% endfor %}
 	</div>	
 
-    <!--Pagination -->
+    <!--Pagination to display six in a page -->
 	<div class="row text-center">
 	{% if cocktails.has_other_pages %}
 		<ul class="pagination">
