@@ -234,6 +234,7 @@ def show_cocktail_category(request, category):
 				cocktails.append(cocktail)
 				break
 	context_dict['cocktails'] = cocktails
+	context_dict['category'] = category
 	return render(request, 'cocktails/show_cocktail_category.html', context_dict)
 	
 @login_required	
