@@ -1,4 +1,4 @@
-import os, time
+import os, time, random
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', '_2412_cocktails.settings')
 
 import django
@@ -7,8 +7,6 @@ from cocktails.models import *
 from django.core.files import File
 
 def populate():
-
-	
 	u = add_user("test", "password123", "2017-03-23")
 	for user in users:
 		test = add_user(user, "password123", "1987-02-28")
@@ -20,6 +18,8 @@ def populate():
 			add_ingredient(c, ingredient[0], ingredient[1], ingredient[2])
 		for instruction in menu[cocktail]["instructions"]:
 			add_instruction(c, instruction)
+		add_comment(comments[random.randint(0, len(comments)-1)], test, c)
+		add_comment("Thanks for the feedback", u, c)
 		time.sleep(0.5)
 		
 
@@ -65,8 +65,17 @@ def add_ingredient(cock, quan, name, type):
 def add_instruction(cock, instr):
 	i = Instruction.objects.get_or_create(cocktail=cock, text=instr)[0]
 	i.save()
+	
+def add_comment(text, user, cocktail):
+	comment = Comment(text=text)
+	comment.user = user
+	comment.cocktail = Cocktail.objects.get(slug=cocktail.slug)
+	comment.save()
 
-users = ["Vincent", "Deadward", "LilVinnie", "JohnCena"] 
+users = ["Deadward", "LilVinnie", "JohnCena", "Vincent"]
+
+comments = ["This cocktails rocks!", "This has too much booze for my liking.", "Yuk, I hate that", "I am in love with this cocktail. Good job!", "I've noticed all of your uploads are really good. You are my favourite user! Follow!",
+			"I hope one day I can be like you!", "I just don't like the taste of it."]
 
 menu = { 
 		"Mojito" : { 
