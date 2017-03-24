@@ -97,7 +97,7 @@
 			<img src={% if comment.user.userprofile.picture %} "{{MEDIA_URL}}/{{ comment.user.userprofile.picture }}" {% else %} "{{MEDIA_URL}}profile_pictures/default.jpg" {% endif %} class="img-responsive">
 		</div>
 		<div class="col-md-4 col-xs-8 comment">
-			<a href="{% url 'get_user' user_name=cocktail.author %}">{{ comment.user }} </a><span class="comment-time"> {{ comment.date }}</span><br/>
+			<a href="{% url 'get_user' user_name=comment.user %}">{{ comment.user }} </a><span class="comment-time"> {{ comment.date }}</span><br/>
 		 	{{ comment.text }}  
 		 </div>
 	</div>
