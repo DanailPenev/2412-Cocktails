@@ -7,7 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-# Create your views here.
+# VIEWS
+
+# ----------------------- INDEX, ABOUT, HELP ----------------------
 def index(request):
 	context_dict = {}
 	cocktails = Cocktail.objects.order_by('-rating')[:3]
@@ -20,13 +22,8 @@ def about(request):
 def help(request):
 	return render(request, 'cocktails/help.html', {})
 
-@login_required	
-def hallOfFame(request):
-	context_dict = {}
-	cocktails = Cocktail.objects.order_by('-rating')[:6]
-	context_dict['cocktails'] = cocktails
-	return render(request, 'cocktails/hof.html', context_dict)
 
+# ----------------------- USER AUTHENTICATION VIEWS ---------------	
 def register(request):
 	# was the registration successful
 	# initially false
@@ -60,7 +57,193 @@ def register(request):
 		profile_form = UserProfileForm()
 	
 	return render(request, 'cocktails/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+	
+def user_login(request):
+	
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		
+		user = authenticate(username=username, password=password)
+		
+		if user:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect(reverse('index'))
+			else:
+				return HttpResponse("Your account is disabled.")
+		else:
+			return HttpResponse("Invalid login details")
+			
+	else:
+		par = request.GET.get('next', '')
+		redirected = False
+		print par
+		if par != '':
+			redirected = True
+		return render(request, 'cocktails/login.html', {'redirected': redirected})
 
+@login_required
+def user_logout(request):
+	logout(request)
+	return HttpResponseRedirect(reverse('index'))
+	
+@login_required
+def change_password(request):
+	context_dict = {}
+	if request.method == 'POST':
+		successful = False
+
+		password = request.POST.get('old_password')
+		new_pass_1 = request.POST.get('new_password')
+		new_pass_2 = request.POST.get('new_password_again')
+		u = request.user
+		auth = authenticate(username=u.username, password=password)
+		if new_pass_1==new_pass_2 and auth:
+			u.set_password(new_pass_2)
+			u.save()
+			successful = True
+			context_dict['successful'] = successful
+			return render(request, 'cocktails/change_password.html', context_dict)
+	return render(request, 'cocktails/change_password.html', context_dict)
+
+@login_required
+def delete_user(request):
+	u = request.user
+	logout(request)
+	User.objects.filter(username=u.username).delete()
+	return HttpResponseRedirect(reverse('index'))
+
+# ----------------------------- USER PROFILES VIEWS ---------------------------------------	
+@login_required
+def profile(request):
+	context_dict = {}
+	user = request.user
+	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
+	
+@login_required	
+def get_user(request, user_name):
+	context_dict = {}
+	user = User.objects.get(username=user_name)
+	cocktails = Cocktail.objects.filter(author=user)
+	# Paginator
+	page = request.GET.get('page', 1)
+
+        paginator = Paginator(cocktails, 6) #to display 6 on one page 
+
+        try:
+                cocktail_recipes = paginator.page(page)
+
+        except PageNotAnInteger:
+                cocktail_recipes = paginator.page(1)
+
+        except EmptyPage:
+                cocktail_recipes = paginator.page(paginator.num_pages)
+
+	owner = user==request.user
+	uploads = len(cocktails)
+	following = False
+	if not owner and user.userprofile in request.user.userprofile.follows.all():
+		following = True
+	follows = len(user.userprofile.follows.all())
+	followers = user.userprofile.follower.all()
+	context_dict['user'] = user
+	context_dict['cocktails'] = cocktail_recipes
+	context_dict['owner'] = owner
+	context_dict['following'] = following
+	context_dict['uploads'] = uploads
+	context_dict['follows'] = follows
+	context_dict['followers'] = followers
+	return render(request, 'cocktails/profile.html', context_dict)
+
+# -------------------------------- FOLLOWER VIEWS ------------------------------------------	
+@login_required
+def follow_user(request, user_name):
+	context_dict = {}
+	user = User.objects.get(username=user_name)
+	follower = request.user
+	follower.userprofile.follows.add(user.userprofile)
+	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
+	
+@login_required
+def unfollow_user(request, user_name):
+	context_dict = {}
+	user = User.objects.get(username=user_name)
+	follower = request.user
+	following = True
+	if user.userprofile in request.user.userprofile.follows.all():
+		follower.userprofile.follows.remove(user.userprofile)
+		following = False
+	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
+	
+
+
+# --------------------------- VIEWS TO SHOW COCKTAILS ----------------------------------------	
+@login_required
+def cocktails(request):
+    cocktails = Cocktail.objects.all().order_by('-date')
+    #Paginator
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(cocktails, 6) #to display 6 on one page
+
+    try:
+    	cocktail_recipes = paginator.page(page)
+
+    except PageNotAnInteger:
+    	cocktail_recipes = paginator.page(1)
+
+    except EmptyPage:
+    	cocktail_recipes = paginator.page(paginator.num_pages)
+
+    return render(request, 'cocktails/cocktails.html', { 'cocktails': cocktail_recipes})
+	
+@login_required
+def show_cocktail(request, cocktail_name_slug):
+	context_dict = {}
+
+	try:
+		cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
+		ingredients = cocktail.ingredient_set.all()
+		instructions = cocktail.instruction_set.all()
+		owner = request.user==cocktail.author
+		comments = cocktail.comment_set.all().order_by('-date')
+
+		context_dict['ingredients'] = ingredients
+		context_dict['instructions'] = instructions
+		context_dict['cocktail'] = cocktail
+		context_dict['owner'] = owner
+		context_dict['comments'] = comments
+
+	except Cocktail.DoesNotExist:
+		context_dict['ingredients'] = None
+		context_dict['instructions'] = None
+		context_dict['cocktail'] = None
+		context_dict['owner'] = False
+		context_dict['comments'] = None
+
+	return render(request, 'cocktails/show_cocktail.html', context_dict)
+	
+@login_required
+def show_cocktail_category(request, category):
+	context_dict = {}
+	cocktails = []
+	for cocktail in Cocktail.objects.all():
+		for ingredient in cocktail.ingredient_set.all():
+			if ingredient.name.lower()==category.lower():
+				cocktails.append(cocktail)
+				break
+	context_dict['cocktails'] = cocktails
+	return render(request, 'cocktails/show_cocktail_category.html', context_dict)
+	
+@login_required	
+def hallOfFame(request):
+	context_dict = {}
+	cocktails = Cocktail.objects.order_by('-rating')[:6]
+	context_dict['cocktails'] = cocktails
+	return render(request, 'cocktails/hof.html', context_dict)
+	
+# ----------------------------- UPLOAD, EDIT AND DELETE COCKTAILS -----------------------------------
 @login_required	
 def upload_cocktail(request):
 	# successful upload?
@@ -101,212 +284,7 @@ def upload_cocktail(request):
 	context_dict['instructionSet'] = instructionSet
 	return render(request, 'cocktails/upload_cocktail.html', context_dict)	
 	
-def user_login(request):
-	if request.method == 'POST':
-		username = request.POST.get('username')
-		password = request.POST.get('password')
-		
-		user = authenticate(username=username, password=password)
-		
-		if user:
-			if user.is_active:
-				login(request, user)
-				return HttpResponseRedirect(reverse('index'))
-			else:
-				return HttpResponse("Your account is disabled.")
-		else:
-			return HttpResponse("Invalid login details")
-			
-	else:
-		par = request.GET.get('next', '')
-		redirected = False
-		if par != '':
-			redirected = True
-		return render(request, 'cocktails/login.html', {'redirected': redirected})
 
-@login_required
-def change_password(request):
-	context_dict = {}
-	if request.method == 'POST':
-		successful = False
-
-		password = request.POST.get('old_password')
-		new_pass_1 = request.POST.get('new_password')
-		new_pass_2 = request.POST.get('new_password_again')
-		u = request.user
-		auth = authenticate(username=u.username, password=password)
-		if new_pass_1==new_pass_2 and auth:
-			u.set_password(new_pass_2)
-			u.save()
-			successful = True
-			context_dict['successful'] = successful
-			return render(request, 'cocktails/change_password.html', context_dict)
-	return render(request, 'cocktails/change_password.html', context_dict)
-
-@login_required
-def user_logout(request):
-	logout(request)
-	return HttpResponseRedirect(reverse('index'))
-
-@login_required
-def delete_user(request):
-	u = request.user
-	logout(request)
-	User.objects.filter(username=u.username).delete()
-	return HttpResponseRedirect(reverse('index'))
-
-@login_required
-def show_cocktail(request, cocktail_name_slug):
-	context_dict = {}
-
-	try:
-		cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
-		ingredients = cocktail.ingredient_set.all()
-		instructions = cocktail.instruction_set.all()
-		owner = request.user==cocktail.author
-		comments = cocktail.comment_set.all().order_by('-date')
-
-		context_dict['ingredients'] = ingredients
-		context_dict['instructions'] = instructions
-		context_dict['cocktail'] = cocktail
-		context_dict['owner'] = owner
-		context_dict['comments'] = comments
-
-	except Cocktail.DoesNotExist:
-		context_dict['ingredients'] = None
-		context_dict['instructions'] = None
-		context_dict['cocktail'] = None
-		context_dict['owner'] = False
-		context_dict['comments'] = None
-
-	return render(request, 'cocktails/show_cocktail.html', context_dict)	
-
-@login_required
-def add_comment(request, cocktail_name_slug):
-	text = request.POST.get('comment')
-	comment = Comment(text=text)
-	comment.user = request.user
-	comment.cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
-	comment.save()
-	return HttpResponseRedirect(reverse('show_cocktail', kwargs={'cocktail_name_slug': cocktail_name_slug}))
-	
-@login_required
-def delete_cocktail(request, cocktail_name_slug):
-	u = request.user
-	cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
-	if u==cocktail.author:
-		cocktail.delete()
-	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': u.username}))
-	
-@login_required
-def show_cocktail_category(request, category):
-	context_dict = {}
-	cocktails = []
-	for cocktail in Cocktail.objects.all():
-		for ingredient in cocktail.ingredient_set.all():
-			if ingredient.name.lower()==category.lower():
-				cocktails.append(cocktail)
-				break
-	context_dict['cocktails'] = cocktails
-	return render(request, 'cocktails/show_cocktail_category.html', context_dict)
-	
-@login_required
-def rate_cocktail(request, cocktail_name_slug):
-	context_dict = {}
-	cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
-	rate = int(request.POST.get('rating'))
-	voted = True
-	cocktail.rating = (cocktail.rating + rate)/2
-	cocktail.save()
-	ingredients = cocktail.ingredient_set.all()
-	instructions = cocktail.instruction_set.all()
-	owner = request.user==cocktail.author
-	context_dict['ingredients'] = ingredients
-	context_dict['instructions'] = instructions
-	context_dict['cocktail'] = cocktail
-	context_dict['owner'] = owner
-	context_dict['voted'] = voted
-	return render(request, 'cocktails/show_cocktail.html', context_dict)
-
-@login_required
-def cocktails(request):
-    cocktails = Cocktail.objects.all().order_by('-date')
-    #Paginator
-    page = request.GET.get('page', 1)
-
-    paginator = Paginator(cocktails, 6) #to display 6 on one page
-
-    try:
-    	cocktail_recipes = paginator.page(page)
-
-    except PageNotAnInteger:
-    	cocktail_recipes = paginator.page(1)
-
-    except EmptyPage:
-    	cocktail_recipes = paginator.page(paginator.num_pages)
-
-    return render(request, 'cocktails/cocktails.html', { 'cocktails': cocktail_recipes})
-
-@login_required	
-def get_user(request, user_name):
-	context_dict = {}
-	user = User.objects.get(username=user_name)
-	cocktails = Cocktail.objects.filter(author=user)
-	# Paginator
-	page = request.GET.get('page', 1)
-
-        paginator = Paginator(cocktails, 6) #to display 6 on one page 
-
-        try:
-                cocktail_recipes = paginator.page(page)
-
-        except PageNotAnInteger:
-                cocktail_recipes = paginator.page(1)
-
-        except EmptyPage:
-                cocktail_recipes = paginator.page(paginator.num_pages)
-
-	owner = user==request.user
-	uploads = len(cocktails)
-	following = False
-	if not owner and user.userprofile in request.user.userprofile.follows.all():
-		following = True
-	follows = len(user.userprofile.follows.all())
-	followers = user.userprofile.follower.all()
-	context_dict['user'] = user
-	context_dict['cocktails'] = cocktail_recipes
-	context_dict['owner'] = owner
-	context_dict['following'] = following
-	context_dict['uploads'] = uploads
-	context_dict['follows'] = follows
-	context_dict['followers'] = followers
-	return render(request, 'cocktails/profile.html', context_dict)
-
-@login_required
-def follow_user(request, user_name):
-	context_dict = {}
-	user = User.objects.get(username=user_name)
-	follower = request.user
-	follower.userprofile.follows.add(user.userprofile)
-	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
-	
-@login_required
-def unfollow_user(request, user_name):
-	context_dict = {}
-	user = User.objects.get(username=user_name)
-	follower = request.user
-	following = True
-	if user.userprofile in request.user.userprofile.follows.all():
-		follower.userprofile.follows.remove(user.userprofile)
-		following = False
-	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
-
-@login_required
-def profile(request):
-	context_dict = {}
-	user = request.user
-	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': user.username}))
-	
 @login_required
 def edit_cocktail(request, cocktail_name_slug):
     instance = Cocktail.objects.get(slug=cocktail_name_slug)
@@ -349,3 +327,39 @@ def edit_cocktail(request, cocktail_name_slug):
                         instruction.save()
         return HttpResponseRedirect(reverse('profile'))
     return render(request, 'cocktails/upload_cocktail.html', context_dict)
+	
+@login_required
+def delete_cocktail(request, cocktail_name_slug):
+	u = request.user
+	cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
+	if u==cocktail.author:
+		cocktail.delete()
+	return HttpResponseRedirect(reverse('get_user', kwargs={'user_name': u.username}))
+	
+# ----------------------------- RATE AND COMMENT COCKTAILS ----------------------------------------------------
+@login_required
+def add_comment(request, cocktail_name_slug):
+	text = request.POST.get('comment')
+	comment = Comment(text=text)
+	comment.user = request.user
+	comment.cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
+	comment.save()
+	return HttpResponseRedirect(reverse('show_cocktail', kwargs={'cocktail_name_slug': cocktail_name_slug}))
+	
+@login_required
+def rate_cocktail(request, cocktail_name_slug):
+	context_dict = {}
+	cocktail = Cocktail.objects.get(slug=cocktail_name_slug)
+	rate = int(request.POST.get('rating'))
+	voted = True
+	cocktail.rating = (cocktail.rating + rate)/2
+	cocktail.save()
+	ingredients = cocktail.ingredient_set.all()
+	instructions = cocktail.instruction_set.all()
+	owner = request.user==cocktail.author
+	context_dict['ingredients'] = ingredients
+	context_dict['instructions'] = instructions
+	context_dict['cocktail'] = cocktail
+	context_dict['owner'] = owner
+	context_dict['voted'] = voted
+	return render(request, 'cocktails/show_cocktail.html', context_dict)
