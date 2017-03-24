@@ -15,9 +15,11 @@
 			<div class="box-header">
 				<h2>Log In</h2>
 			</div>
+			<!-- If user is not logged in -->
 			{% if redirected %}
 				You need to be logged in to view this page.
 			{% endif %}
+				<!-- Login form -->
 				<form id="login_form" method="post" action="{% url 'login' %}">
 
 					{% csrf_token %}
