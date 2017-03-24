@@ -37,3 +37,9 @@ class IndexViewTests(TestCase):
 		response = self.client.get(reverse('index'))
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, "Random Name")
+
+
+class AboutViewTests(TestCase):
+        def test_about_view_works(self):
+                response = self.client.get(reverse('about'))
+                self.assertEqual(response.status_code, 200)
