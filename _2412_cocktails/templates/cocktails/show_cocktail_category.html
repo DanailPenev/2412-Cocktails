@@ -17,7 +17,7 @@
 	<!-- more cocktails of given category -->
 	<div class="row">
 		{% for cocktail in cocktails %}
-		<div class="col-md-4 col-sm-6 cocktail-info">
+		<div class="col-md-4 col-xs-4 cocktail-info">
 			<a href="{% url 'show_cocktail' cocktail_name_slug=cocktail.slug %}">
 				<img class="img-responsive img-portfolio img-hover" src={% if cocktail.picture %} "{{MEDIA_URL}}/{{ cocktail.picture }}" {% else %} "{{MEDIA_URL}}/cocktail_images/download.jpg" {% endif %} alt="">
 
